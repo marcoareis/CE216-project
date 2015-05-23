@@ -17,6 +17,8 @@ gazebo/common/common.hh
 -
 stdio.h
 -
+gazebo/math/gzmath.hh
+-
 
 /usr/include/gazebo-5.1/gazebo/Master.hh
 string

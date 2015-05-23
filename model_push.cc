@@ -3,6 +3,7 @@
 #include <gazebo/physics/physics.hh>
 #include <gazebo/common/common.hh>
 #include <stdio.h>
+#include <gazebo/math/gzmath.hh>
 
 namespace gazebo
 {
@@ -18,6 +19,7 @@ namespace gazebo
                 this->joint4 = _parent->GetJoint("leg4_joint");
                 this->joint5 = _parent->GetJoint("leg5_joint");
                 this->joint6 = _parent->GetJoint("leg6_joint");
+                this->jointBody = _parent->GetJoint("body_joint");
                 this->controller = new physics::JointController(model);
 
                 this->updateConnection = event::Events::ConnectWorldUpdateBegin(
@@ -50,6 +52,8 @@ namespace gazebo
                 this->joint2->SetVelocity(0, velocity);
                 this->joint4->SetVelocity(0, velocity);
                 this->joint6->SetVelocity(0, velocity);
+
+                //this->jointBody->SetAngle(0, math::Angle(0));
                 myMain();
             }
         private:
@@ -60,6 +64,7 @@ namespace gazebo
             physics::JointPtr joint4;
             physics::JointPtr joint5;
             physics::JointPtr joint6;
+            physics::JointPtr jointBody;
             physics::JointController * controller;
             event::ConnectionPtr updateConnection;
 
