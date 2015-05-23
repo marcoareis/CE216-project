@@ -1,0 +1,82 @@
+#include <boost/bind.hpp>
+#include <gazebo/gazebo.hh>
+#include <gazebo/physics/physics.hh>
+#include <gazebo/common/common.hh>
+#include <stdio.h>
+
+namespace gazebo
+{
+    class ModelPush : public ModelPlugin
+    {
+#define NUM_JOINT 4
+        public:
+            void Load( physics::ModelPtr _parent, sdf::ElementPtr )
+            {
+                this->model = _parent;
+/*
+                std::ostringstream stringStream;
+                for (int i = 0; i < NUM_JOINT; i++) {
+                    stringStream << "leg" << i+1 << "_hinge";
+                    std::string jointName = stringStream.str();
+                    this->joint[i] = _parent->GetJoint(jointName);
+                }
+                this->joint[0] = _parent->GetJoint("leg2_joint");
+                this->joint[1] = _parent->GetJoint("leg3_joint");
+                this->joint[2] = _parent->GetJoint("leg5_joint");
+                this->joint[3] = _parent->GetJoint("leg6_joint");
+//*/
+                this->joint2 = _parent->GetJoint("leg2_joint");
+                this->joint3 = _parent->GetJoint("leg3_joint");
+                this->joint5 = _parent->GetJoint("leg5_joint");
+                this->joint6 = _parent->GetJoint("leg6_joint");
+
+                this->updateConnection = event::Events::ConnectWorldUpdateBegin(
+                        boost::bind(&ModelPush::OnUpdate, this, _1));
+                //this->controller = new physics::JointController(model);
+            }
+
+            void OnUpdate( const common::UpdateInfo ) 
+            {
+                //this->model->SetLinearVel(math::Vector3(1.03, 0, 0));
+
+                //printf("joint1 angle: %d, %d, %d\n", joint1->GetAngle(0), joint1->GetAngle(1), 
+                //        joint1->GetAngle(2));
+
+                //std::cout << "joint1 DOF=" << joint1->GetAngleCount() << std::endl;
+
+                /*
+                for (int i = 0; i < NUM_JOINT; i++) {
+                    std::cout << "joint" << i+1 << "=" << joint[i]->GetAngle(0).Degree() << ", ";
+                }
+                std::cout << "joint2=" << this->joint[0]->GetAngle(0).Degree() << ", ";
+                std::cout << "joint3=" << this->joint[1]->GetAngle(0).Degree() << ", ";
+                std::cout << "joint5=" << this->joint[2]->GetAngle(0).Degree() << ", ";
+                std::cout << "joint6=" << this->joint[3]->GetAngle(0).Degree() << std::endl;
+//*/
+                std::cout << "joint2=" << this->joint2->GetAngle(0).Degree() << ", ";
+                std::cout << "joint3=" << this->joint3->GetAngle(0).Degree() << ", ";
+                std::cout << "joint5=" << this->joint5->GetAngle(0).Degree() << ", ";
+                std::cout << "joint6=" << this->joint6->GetAngle(0).Degree() << std::endl;
+                std::cout << std::endl;
+                myMain();
+            }
+        private:
+            physics::ModelPtr model;
+            physics::JointPtr joint[NUM_JOINT];
+            physics::JointPtr joint2;
+            physics::JointPtr joint3;
+            physics::JointPtr joint5;
+            physics::JointPtr joint6;
+            //physics::JointController * controller;
+            event::ConnectionPtr updateConnection;
+
+            void myMain()
+            {
+                return;
+            }           
+    };
+
+    GZ_REGISTER_MODEL_PLUGIN(ModelPush)
+}
+
+

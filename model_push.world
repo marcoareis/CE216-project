@@ -1,0 +1,380 @@
+<?xml version="1.0"?> 
+<sdf version="1.4">
+    <world name="default">
+
+<!-- Ground Plane -->
+<include>
+    <uri>model://ground_plane</uri>
+</include>
+
+<include>
+    <uri>model://sun</uri>
+</include>
+
+<model name="uneven_terrain">
+    <pose>2.5 0 0  0 0 0</pose>
+    <static>true</static>
+    <link name="uneven terrain">
+        <!--
+        <visual name="visual">
+            <geometry>
+                <mesh><uri>file://mountain2.dae</uri></mesh>
+            </geometry>
+        </visual>
+        <collision name="collision">
+            <geometry>
+                <mesh><uri>file://mountain2.dae</uri></mesh>
+            </geometry>
+        </collision>
+        -->
+    </link>
+</model>
+
+<model name="my_robot">
+    <static> false </static>
+    <plugin name="model_push" filename="build/libmodel_push.so"/>
+    <link name='chassis_front'>
+        <pose> 0.35 0 .10 0 0 0 </pose>
+        <inertial>
+            <mass> 10 </mass>
+            <inertia>
+                <ixx> 0.1</ixx>
+                <ixy> 0 </ixy>
+                <ixz> 0 </ixz>
+                <iyy>0.1</iyy>
+                <iyz>0</iyz>
+                <izz>0.1</izz>
+            </inertia>
+        </inertial>
+        <collision name='collision'>
+            <geometry>
+                <box>
+                    <size> 0.2 0.2 0.1 </size>
+                </box>
+            </geometry>
+        </collision>
+        <visual name='visual'>
+            <pose> 0 0 0 0 0 0 </pose>
+            <geometry>
+                <box>
+                    <size> 0.2 0.2 0.1 </size>
+                </box>
+            </geometry>
+        </visual>
+        <self_collide> true </self_collide>
+    </link>
+
+
+    <link name='chassis_back'>
+        <pose> 0 0 .1 0 0 0 </pose>
+        <self_collide> true </self_collide>
+        <collision name='collision'>
+            <geometry>
+                <box>
+                    <size> 0.4 0.2 0.1 </size>
+                </box>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass> 10 </mass>
+            <inertia>
+                <ixx> 0.1</ixx>
+                <ixy> 0 </ixy>
+                <ixz> 0 </ixz>
+                <iyy>0.1</iyy>
+                <iyz>0</iyz>
+                <izz>0.1</izz>
+            </inertia>
+        </inertial>
+        <visual name='visual'>
+            <pose> 0 0 0 0 0 0 </pose>
+            <geometry>
+                <box>
+                    <size> 0.4 0.2 0.1 </size>
+                </box>
+                <!-->
+                    <mesh>
+                        <uri> model://pioneer2dx/meshes/chassis.dae </uri>
+                        <scale> 0.9 0.5 0.5 </scale>
+                    </mesh>
+                    -->
+                </geometry>
+            </visual>
+        </link>
+
+        <joint type="revolute" name="body_joint">
+            <pose> -0.1 0 0 0 0 0 </pose>
+            <child> chassis_front </child>
+            <parent> chassis_back </parent>
+            <axis> 
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+        <link name="leg1">
+            <pose> 0.35 0.12 0.1 0 0 1.57 </pose>
+
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </visual>
+            <inertial>
+                <mass> 0.0907185 </mass>
+                <inertia>
+                    <ixx>0.123962</ixx>
+                    <ixy>0.000012</ixy>
+                    <ixz>-0.000043</ixz>
+                    <iyy>0.096146</iyy>
+                    <iyz>-0.011166</iyz>
+                    <izz>0.034739</izz>
+                </inertia>
+            </inertial>
+            <gravity> 1 </gravity>
+        </link>
+
+        <joint type="revolute" name="leg1_joint">
+            <pose> 0 0 0.0 0 0 0 </pose>
+            <child> leg1 </child>
+            <parent> chassis_front </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+        <link name="leg4">
+            <pose> 0.35 -0.12 0.1 0 0 1.57 </pose>
+            <inertial>
+                <mass> 0.0907185 </mass>
+                <inertia>
+                    <ixx>0.123962</ixx>
+                    <ixy>0.000012</ixy>
+                    <ixz>-0.000043</ixz>
+                    <iyy>0.096146</iyy>
+                    <iyz>-0.011166</iyz>
+                    <izz>0.034739</izz>
+                </inertia>
+            </inertial>
+
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </visual>
+
+            <gravity> 1 </gravity>
+        </link>
+
+        <joint type="revolute" name="leg4_joint">
+            <pose> 0 0 0 0 0 0 </pose>
+            <child> leg4 </child>
+            <parent> chassis_front </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+
+        <link name="leg2">
+            <pose> 0 0.12 0.1 0 0 1.57 </pose>
+            <inertial>
+                <mass> 0.0907185 </mass>
+                <inertia>
+                    <ixx>0.123962</ixx>
+                    <ixy>0.000012</ixy>
+                    <ixz>-0.000043</ixz>
+                    <iyy>0.096146</iyy>
+                    <iyz>-0.011166</iyz>
+                    <izz>0.034739</izz>
+                </inertia>
+            </inertial>
+
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </visual>
+
+            <gravity> 1 </gravity>
+        </link>
+
+        <joint type="revolute" name="leg2_joint">
+            <pose> 0 0 0 0 0 0 </pose>
+            <child> leg2 </child>
+            <parent> chassis_back </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+        <link name="leg3">
+            <pose> -0.18 0.12 0.1 0 0 1.57 </pose>
+            <inertial>
+                <mass> 0.0907185 </mass>
+                <inertia>
+                    <ixx>0.123962</ixx>
+                    <ixy>0.000012</ixy>
+                    <ixz>-0.000043</ixz>
+                    <iyy>0.096146</iyy>
+                    <iyz>-0.011166</iyz>
+                    <izz>0.034739</izz>
+                </inertia>
+            </inertial>
+
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </visual>
+
+            <gravity> 1 </gravity>
+        </link>
+
+        <joint type="revolute" name="leg3_joint">
+            <pose> 0 0 0 0 0 0 </pose>
+            <child> leg3 </child>
+            <parent> chassis_back </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+        <link name="leg5">
+            <pose> 0 -0.12 0.1 0 0 1.57 </pose>
+            <inertial>
+                <mass> 0.0907185 </mass>
+                <inertia>
+                    <ixx>0.123962</ixx>
+                    <ixy>0.000012</ixy>
+                    <ixz>-0.000043</ixz>
+                    <iyy>0.096146</iyy>
+                    <iyz>-0.011166</iyz>
+                    <izz>0.034739</izz>
+                </inertia>
+            </inertial>
+
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </visual>
+
+            <gravity> 1 </gravity>
+        </link>
+
+        <joint type="revolute" name="leg5_joint">
+            <pose> 0 0 0 0 0 0 </pose>
+            <child> leg5 </child>
+            <parent> chassis_back </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+        <link name="leg6">
+            <pose> -0.18 -0.12 0.1 0 0 1.57 </pose>
+            <inertial>
+                <mass> 0.0907185 </mass>
+                <inertia>
+                    <ixx>0.123962</ixx>
+                    <ixy>0.000012</ixy>
+                    <ixz>-0.000043</ixz>
+                    <iyy>0.096146</iyy>
+                    <iyz>-0.011166</iyz>
+                    <izz>0.034739</izz>
+                </inertia>
+            </inertial>
+
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <mesh>
+                        <uri>file://leg.dae</uri>
+                        <scale> 0.1 0.1 0.1 </scale>
+                    </mesh>
+                </geometry>
+            </visual>
+
+            <gravity> 1 </gravity>
+        </link>
+
+        <joint type="revolute" name="leg6_joint">
+            <pose> 0 0 0 0 0 0 </pose>
+            <child> leg6 </child>
+            <parent> chassis_back </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+    </model>
+
+</world>
+                          </sdf>

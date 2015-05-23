@@ -1,0 +1,276 @@
+<?xml version='1.0'?>
+<sdf version='1.5'>
+
+    <world name="default">
+        <plugin name="hello_world" filename="libhello_world.so"/>
+    </world>
+
+    <model name="my_robot">
+        <static> false </static>
+        <link name='chassis_back'>
+            <pose> 0 0 .1 0 0 0 </pose>
+            <collision name='collision'>
+                <geometry>
+                    <box>
+                        <size> 0.4 0.2 0.1 </size>
+                    </box>
+                </geometry>
+            </collision>
+            <visual name='visual'>
+                <pose> 0 0 0.05 0 0 0 </pose>
+                <geometry>
+                    <box>
+                        <size> 0.4 0.2 0.1 </size>
+                    </box>
+                    <!--
+                    <mesh>
+                        <uri> model://pioneer2dx/meshes/chassis_back.dae </uri>
+                        <scale> 0.9 0.5 0.5 </scale>
+                    </mesh>
+                    -->
+                </geometry>
+            </visual>
+        </link>
+
+        <link name='chassis_front'>
+            <pose> 0.35 0 .1 0 0 0 </pose>
+            <collision name='collision'>
+                <geometry>
+                    <box>
+                        <size> 0.2 0.2 0.1 </size>
+                    </box>
+                </geometry>
+            </collision>
+            <visual name='visual'>
+                <pose> 0 0 0.05 0 0 0 </pose>
+                <geometry>
+                    <box>
+                        <size> 0.2 0.2 0.1 </size>
+                    </box>
+                </geometry>
+            </visual>
+        </link>
+
+        <link name='chassis_back'>
+            <pose> 0 0 .1 0 0 0 </pose>
+            <collision name='collision'>
+                <geometry>
+                    <box>
+                        <size> 0.4 0.2 0.1 </size>
+                    </box>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass> 10 </mass>
+            </inertial>
+            <visual name='visual'>
+                <pose> 0 0 0 0 0 0 </pose>
+                <geometry>
+                    <box>
+                        <size> 0.4 0.2 0.1 </size>
+                    </box>
+                    <!-->
+                    <mesh>
+                        <uri> model://pioneer2dx/meshes/chassis.dae </uri>
+                        <scale> 0.9 0.5 0.5 </scale>
+                    </mesh>
+                    -->
+                </geometry>
+            </visual>
+        </link>
+
+        <joint type="universal" name="ball_joint1">
+            <pose> 0 0 0 0 0 0 </pose>
+            <child> chassis_front </child>
+            <parent> chassis_back </parent>
+            <axis> 0 0 0 </axis>
+        </joint>
+
+        <link name="leg1">
+            <pose> 0.35 0.10 0.1 0 0 0 </pose>
+
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+
+        <joint type="revolute" name="leg1_hinge">
+            <pose> 0 0 0.05 0 0 0 </pose>
+            <child> leg1 </child>
+            <parent> chassis_front </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+        <link name="leg2">
+            <pose> 0 0.10 0.1 0  0  0 </pose>
+
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+
+        <joint type="revolute" name="leg2_hinge">
+            <pose> 0 0 0.05 0 0 0 </pose>
+            <child> leg2 </child>
+            <parent> chassis_back </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+        <link name="leg3">
+            <pose> -0.18 0.10 0.1 0  0  0 </pose>
+
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+
+        <joint type="revolute" name="leg3_hinge">
+            <pose> 0 0 0.05 0 0 0 </pose>
+            <child> leg3 </child>
+            <parent> chassis_back </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+        <link name="leg4">
+            <pose> 0.35 -0.1 0.1 0  0  0 </pose>
+
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+
+        <joint type="revolute" name="leg4_hinge">
+            <pose> 0 0 0.05 0 0 0 </pose>
+            <child> leg4 </child>
+            <parent> chassis_front </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+        <link name="leg5">
+            <pose> 0 -0.1 0.1 0  0  0 </pose>
+
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+
+        <joint type="revolute" name="leg5_hinge">
+            <pose> 0 0 0.05 0 0 0 </pose>
+            <child> leg5 </child>
+            <parent> chassis_back </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+        <link name="leg6">
+            <pose> -0.18 -0.1 0.1 0  0  0 </pose>
+
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </collision>
+
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius> 0.01 </radius>
+                        <length> 0.1 </length>	
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+
+        <joint type="revolute" name="leg6_hinge">
+            <pose> 0 0 0.05 0 0 0 </pose>
+            <child> leg6 </child>
+            <parent> chassis_back </parent>
+            <axis>
+                <xyz> 0 1 0 </xyz>
+            </axis>
+        </joint>
+
+    </model>
+</sdf>
