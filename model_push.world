@@ -36,7 +36,7 @@
     <link name='chassis_front'>
         <pose> 0.35 0 .10 0 0 0 </pose>
         <inertial>
-            <mass> 10 </mass>
+            <mass> 5 </mass>
             <inertia>
                 <ixx> 0.1</ixx>
                 <ixy> 0 </ixy>
@@ -76,7 +76,7 @@
             </geometry>
         </collision>
         <inertial>
-            <mass> 10 </mass>
+            <mass> 15 </mass>
             <inertia>
                 <ixx> 0.1</ixx>
                 <ixy> 0 </ixy>
@@ -107,6 +107,10 @@
             <child> chassis_front </child>
             <parent> chassis_back </parent>
             <axis> 
+                <limit> 
+                    <lower> 0.1 </lower>
+                    <upper> 0.1 </upper>
+                </limit>
                 <xyz> 0 1 0 </xyz>
             </axis>
         </joint>
@@ -114,7 +118,7 @@
         <link name="leg1">
             <pose> 0.35 0.22  0.1 0 0 1.57 </pose>
 
-            <collision name="collision">
+            <collision name="leg1_collision">
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
@@ -122,6 +126,14 @@
                     </mesh>
                 </geometry>
             </collision>
+
+            <sensor name='leg1_contact' type='contact'>
+                <visualize> true </visualize>
+                <plugin name="contact" filename="build/libcontact.so"/> 
+                <contact>
+                    <collision> leg1_collision </collision>
+                </contact>
+            </sensor>
 
             <visual name="visual">
                 <geometry>
@@ -132,7 +144,7 @@
                 </geometry>
             </visual>
             <inertial>
-                <mass> 0.0907185 </mass>
+                <mass> 0.5 </mass>
                 <inertia>
                     <ixx>0.123962</ixx>
                     <ixy>0.000012</ixy>
@@ -142,7 +154,9 @@
                     <izz>0.034739</izz>
                 </inertia>
             </inertial>
+
             <gravity> 1 </gravity>
+
         </link>
 
         <joint type="revolute" name="leg1_joint">
@@ -157,7 +171,7 @@
         <link name="leg4">
             <pose> 0.35 -0.22 0.1 0 0 1.57 </pose>
             <inertial>
-                <mass> 0.0907185 </mass>
+                <mass> 0.5 </mass>
                 <inertia>
                     <ixx>0.123962</ixx>
                     <ixy>0.000012</ixy>
@@ -200,9 +214,9 @@
 
 
         <link name="leg2">
-            <pose> 0 0.22 0.1 0 0 1.57 </pose>
+            <pose> 0 0.26 0.1 0 0 1.57 </pose>
             <inertial>
-                <mass> 0.0907185 </mass>
+                <mass> 0.5 </mass>
                 <inertia>
                     <ixx>0.123962</ixx>
                     <ixy>0.000012</ixy>
@@ -246,7 +260,7 @@
         <link name="leg3">
             <pose> -0.18 0.22 0.1 0 0 1.57 </pose>
             <inertial>
-                <mass> 0.0907185 </mass>
+                <mass> 0.5 </mass>
                 <inertia>
                     <ixx>0.123962</ixx>
                     <ixy>0.000012</ixy>
@@ -288,9 +302,9 @@
         </joint>
 
         <link name="leg5">
-            <pose> 0 -0.22 0.1 0 0 1.57 </pose>
+            <pose> 0 -0.26 0.1 0 0 1.57 </pose>
             <inertial>
-                <mass> 0.0907185 </mass>
+                <mass> 0.5 </mass>
                 <inertia>
                     <ixx>0.123962</ixx>
                     <ixy>0.000012</ixy>
@@ -334,7 +348,7 @@
         <link name="leg6">
             <pose> -0.18 -0.22 0.1 0 0 1.57 </pose>
             <inertial>
-                <mass> 0.0907185 </mass>
+                <mass> 0.5 </mass>
                 <inertia>
                     <ixx>0.123962</ixx>
                     <ixy>0.000012</ixy>

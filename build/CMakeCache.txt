@@ -195,6 +195,9 @@ Project_BINARY_DIR:STATIC=/home/rhexlover/ce216project/build
 Project_SOURCE_DIR:STATIC=/home/rhexlover/ce216project
 
 //Dependencies for the target
+contact_LIB_DEPENDS:STATIC=general;gazebo_transport;general;gazebo_physics;general;gazebo_sensors;general;gazebo_rendering;general;gazebo_gui;general;gazebo_msgs;general;gazebo_math;general;gazebo_common;general;gazebo;general;boost_thread;general;boost_signals;general;boost_system;general;boost_filesystem;general;boost_program_options;general;boost_regex;general;boost_iostreams;general;boost_date_time;general;pthread;general;/usr/lib/x86_64-linux-gnu/libboost_system.so;
+
+//Dependencies for the target
 model_push_LIB_DEPENDS:STATIC=general;gazebo_transport;general;gazebo_physics;general;gazebo_sensors;general;gazebo_rendering;general;gazebo_gui;general;gazebo_msgs;general;gazebo_math;general;gazebo_common;general;gazebo;general;boost_thread;general;boost_signals;general;boost_system;general;boost_filesystem;general;boost_program_options;general;boost_regex;general;boost_iostreams;general;boost_date_time;general;pthread;general;/usr/lib/x86_64-linux-gnu/libboost_system.so;
 
 

@@ -34,25 +34,77 @@ namespace gazebo
                 //printf("joint1 angle: %d, %d, %d\n", joint1->GetAngle(0), joint1->GetAngle(1), 
                 //        joint1->GetAngle(2));
                 static bool startLeg = 0;
+                /*
                 std::cout << std::setprecision(2) <<  std::fixed << 
                     "joint1=" << this->joint1->GetAngle(0).Degree() << ", " <<
                     "joint2=" << this->joint2->GetAngle(0).Degree() << ", " <<
                     "joint3=" << this->joint3->GetAngle(0).Degree() << ", " << 
                     "joint4=" << this->joint4->GetAngle(0).Degree() << ", " <<
                     "joint5=" << this->joint5->GetAngle(0).Degree() << ", " << 
-                    "joint6=" << this->joint6->GetAngle(0).Degree() << std::endl;
-
+                    "joint6=" << this->joint6->GetAngle(0).Degree() << ", " <<
+                    "body joint=" << this->model->GetJoint("body_joint")->GetAngle(0).Degree() << std::endl;
+//*/
                 // get tripod gait
-                int velocity = 1; // 1 [m/s] 
-                if (this->joint2->GetAngle(0).Degree() > 180) { 
-                    this->joint1->SetVelocity(0, velocity); // apply vel to axis 0, 
-                    this->joint3->SetVelocity(0, velocity); // it doesn't matter which axis 
-                    this->joint5->SetVelocity(0, velocity); // to apply to since it's 1 DOF
-                }
-                this->joint2->SetVelocity(0, velocity);
-                this->joint4->SetVelocity(0, velocity);
-                this->joint6->SetVelocity(0, velocity);
+                double velocity = 1; // 1 [m/s] 
+                /*
+                   if (this->joint2->GetAngle(0).Degree() > 180) { 
+                   this->joint1->SetVelocity(0, velocity); // apply vel to axis 0, 
+                   this->joint3->SetVelocity(0, velocity); // it doesn't matter which axis 
+                   this->joint5->SetVelocity(0, velocity); // to apply to since it's 1 DOF
+                   }
+                   this->joint2->SetVelocity(0, velocity);
+                   this->joint4->SetVelocity(0, velocity);
+                   this->joint6->SetVelocity(0, velocity);
+                //*/
+                static int state = 1;
+                int bound = 5;
+                switch (state) {
+                    case 1:
+                        this->joint2->SetVelocity(0, 5);
+                        this->joint4->SetVelocity(0, 5);
+                        this->joint6->SetVelocity(0, 5);
+                        if (((int) this->joint2->GetAngle(0).Degree() % 180) <= bound) {
+                            //std::cout << "state 1" <<  std::endl;
+                            state = 2;
+                        }
+                        break;
+                    case 2:
+                        this->joint2->SetVelocity(0, 0);  
+                        this->joint4->SetVelocity(0, 0);  
+                        this->joint6->SetVelocity(0, 0); 
+                        this->joint1->SetVelocity(0, 1);
+                        this->joint3->SetVelocity(0, 1);
+                        this->joint5->SetVelocity(0, 1);
+                        if (((int) this->joint5->GetAngle(0).Degree() % 180) <= bound) {
+                            //std::cout << "state 2" <<  std::endl;
+                            state = 3;
+                        }
+                        break;
+                    case 3:
+                        this->joint1->SetVelocity(0, 5);  
+                        this->joint3->SetVelocity(0, 5);  
+                        this->joint5->SetVelocity(0, 5); 
+                        if (((int) this->joint5->GetAngle(0).Degree() % 180) <= bound) {
+                            //std::cout << "state 3" <<  std::endl;
+                            state = 4;
+                        }
+                        break;
+                    case 4:
+                        this->joint2->SetVelocity(0, 1);  
+                        this->joint4->SetVelocity(0, 1);  
+                        this->joint6->SetVelocity(0, 1); 
+                        this->joint1->SetVelocity(0, 0);
+                        this->joint3->SetVelocity(0, 0);
+                        this->joint5->SetVelocity(0, 0);
+                        if (((int) this->joint2->GetAngle(0).Degree() % 180) <= bound) {
+                            //std::cout << "state 4" <<  std::endl;
+                            state = 1;
+                        }
+                        break;
 
+                }
+
+                //this->model->GetLink("leg1")->
                 //this->jointBody->SetAngle(0, math::Angle(0));
                 myMain();
             }

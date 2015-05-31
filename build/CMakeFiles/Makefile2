@@ -53,13 +53,48 @@ CMAKE_SOURCE_DIR = /home/rhexlover/ce216project
 CMAKE_BINARY_DIR = /home/rhexlover/ce216project/build
 
 #=============================================================================
+# Target rules for target CMakeFiles/contact.dir
+
+# All Build rule for target.
+CMakeFiles/contact.dir/all:
+	$(MAKE) -f CMakeFiles/contact.dir/build.make CMakeFiles/contact.dir/depend
+	$(MAKE) -f CMakeFiles/contact.dir/build.make CMakeFiles/contact.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rhexlover/ce216project/build/CMakeFiles  1
+	@echo "Built target contact"
+.PHONY : CMakeFiles/contact.dir/all
+
+# Include target in all.
+all: CMakeFiles/contact.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/contact.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rhexlover/ce216project/build/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/contact.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rhexlover/ce216project/build/CMakeFiles 0
+.PHONY : CMakeFiles/contact.dir/rule
+
+# Convenience name for target.
+contact: CMakeFiles/contact.dir/rule
+.PHONY : contact
+
+# clean rule for target.
+CMakeFiles/contact.dir/clean:
+	$(MAKE) -f CMakeFiles/contact.dir/build.make CMakeFiles/contact.dir/clean
+.PHONY : CMakeFiles/contact.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/contact.dir/clean
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/model_push.dir
 
 # All Build rule for target.
 CMakeFiles/model_push.dir/all:
 	$(MAKE) -f CMakeFiles/model_push.dir/build.make CMakeFiles/model_push.dir/depend
 	$(MAKE) -f CMakeFiles/model_push.dir/build.make CMakeFiles/model_push.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rhexlover/ce216project/build/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rhexlover/ce216project/build/CMakeFiles  2
 	@echo "Built target model_push"
 .PHONY : CMakeFiles/model_push.dir/all
 

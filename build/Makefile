@@ -99,6 +99,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named contact
+
+# Build rule for target.
+contact: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 contact
+.PHONY : contact
+
+# fast build rule for target.
+contact/fast:
+	$(MAKE) -f CMakeFiles/contact.dir/build.make CMakeFiles/contact.dir/build
+.PHONY : contact/fast
+
+#=============================================================================
 # Target rules for targets named model_push
 
 # Build rule for target.
@@ -110,6 +123,30 @@ model_push: cmake_check_build_system
 model_push/fast:
 	$(MAKE) -f CMakeFiles/model_push.dir/build.make CMakeFiles/model_push.dir/build
 .PHONY : model_push/fast
+
+contactPlugin.o: contactPlugin.cc.o
+.PHONY : contactPlugin.o
+
+# target to build an object file
+contactPlugin.cc.o:
+	$(MAKE) -f CMakeFiles/contact.dir/build.make CMakeFiles/contact.dir/contactPlugin.cc.o
+.PHONY : contactPlugin.cc.o
+
+contactPlugin.i: contactPlugin.cc.i
+.PHONY : contactPlugin.i
+
+# target to preprocess a source file
+contactPlugin.cc.i:
+	$(MAKE) -f CMakeFiles/contact.dir/build.make CMakeFiles/contact.dir/contactPlugin.cc.i
+.PHONY : contactPlugin.cc.i
+
+contactPlugin.s: contactPlugin.cc.s
+.PHONY : contactPlugin.s
+
+# target to generate assembly for a file
+contactPlugin.cc.s:
+	$(MAKE) -f CMakeFiles/contact.dir/build.make CMakeFiles/contact.dir/contactPlugin.cc.s
+.PHONY : contactPlugin.cc.s
 
 model_push.o: model_push.cc.o
 .PHONY : model_push.o
@@ -141,9 +178,13 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... contact"
 	@echo "... edit_cache"
 	@echo "... model_push"
 	@echo "... rebuild_cache"
+	@echo "... contactPlugin.o"
+	@echo "... contactPlugin.i"
+	@echo "... contactPlugin.s"
 	@echo "... model_push.o"
 	@echo "... model_push.i"
 	@echo "... model_push.s"
