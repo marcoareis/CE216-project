@@ -15,7 +15,6 @@
     <pose>2.5 0 0  0 0 0</pose>
     <static>true</static>
     <link name="uneven terrain">
-        <!--
         <visual name="visual">
             <geometry>
                 <mesh><uri>file://mountain2.dae</uri></mesh>
@@ -26,7 +25,6 @@
                 <mesh><uri>file://mountain2.dae</uri></mesh>
             </geometry>
         </collision>
-        -->
     </link>
 </model>
 
@@ -116,7 +114,7 @@
         </joint>
 
         <link name="leg1">
-            <pose> 0.35 0.22  0.1 0 0 1.57 </pose>
+            <pose> 0.35 0.22  0.1 0 0 -1.57 </pose>
 
             <collision name="leg1_collision">
                 <geometry>
@@ -169,7 +167,7 @@
         </joint>
 
         <link name="leg4">
-            <pose> 0.35 -0.22 0.1 0 0 1.57 </pose>
+            <pose> 0.35 -0.22 0.1 0 0 -1.57 </pose>
             <inertial>
                 <mass> 0.5 </mass>
                 <inertia>
@@ -214,7 +212,7 @@
 
 
         <link name="leg2">
-            <pose> 0 0.26 0.1 0 0 1.57 </pose>
+            <pose> 0 0.26 0.1 0 0 -1.57 </pose>
             <inertial>
                 <mass> 0.5 </mass>
                 <inertia>
@@ -258,7 +256,7 @@
         </joint>
 
         <link name="leg3">
-            <pose> -0.18 0.22 0.1 0 0 1.57 </pose>
+            <pose> -0.18 0.22 0.1 0 0 -1.57 </pose>
             <inertial>
                 <mass> 0.5 </mass>
                 <inertia>
@@ -302,7 +300,7 @@
         </joint>
 
         <link name="leg5">
-            <pose> 0 -0.26 0.1 0 0 1.57 </pose>
+            <pose> 0 -0.26 0.1 0 0 -1.57 </pose>
             <inertial>
                 <mass> 0.5 </mass>
                 <inertia>
@@ -346,7 +344,7 @@
         </joint>
 
         <link name="leg6">
-            <pose> -0.18 -0.22 0.1 0 0 1.57 </pose>
+            <pose> -0.18 -0.22 0.1 0 0 -1.57 </pose>
             <inertial>
                 <mass> 0.5 </mass>
                 <inertia>

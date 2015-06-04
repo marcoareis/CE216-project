@@ -13,5 +13,7 @@ if (PKG_CONFIG_FOUND)
 
   add_library(model_push SHARED model_push.cc)
   add_library(contact SHARED contactPlugin.cc)
+  add_library(listener SHARED listener.cc)
   target_link_libraries(model_push ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
   target_link_libraries(contact ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
+  target_link_libraries(listener ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${PROTOBUF_LIBRARIES} pthread)

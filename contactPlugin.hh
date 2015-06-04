@@ -8,29 +8,37 @@
 
 namespace gazebo
 {
-  /// \brief An example plugin for a contact sensor.
-  class ContactPlugin : public SensorPlugin
-  {
-    /// \brief Constructor.
-    public: ContactPlugin();
+    /// \brief An example plugin for a contact sensor.
+    class ContactPlugin : public SensorPlugin
+    {
+        public: 
+            ContactPlugin();
 
-    /// \brief Destructor.
-    public: virtual ~ContactPlugin();
+            virtual ~ContactPlugin();
 
-    /// \brief Load the sensor plugin.
-    /// \param[in] _sensor Pointer to the sensor that loaded this plugin.
-    /// \param[in] _sdf SDF element that describes the plugin.
-    public: virtual void Load(sensors::SensorPtr _sensor, sdf::ElementPtr _sdf);
+            /// \brief Load the sensor plugin.
+            /// \param[in] _sensor Pointer to the sensor that loaded this plugin.
+            /// \param[in] _sdf SDF element that describes the plugin.
+            virtual void Load(sensors::SensorPtr _sensor, sdf::ElementPtr _sdf);
 
-    /// \brief Callback that recieves the contact sensor's update signal.
-    private: virtual void OnUpdate();
+            //void  getContactPos(math::Vector3 &out);
+            
 
-    /// \brief Pointer to the contact sensor
-    private: sensors::ContactSensorPtr parentSensor;
+        private: 
+            /// \brief Callback that recieves the contact sensor's update signal.
+            virtual void OnUpdate();
 
-    /// \brief Connection that maintains a link between the contact sensor's
-    /// updated signal and the OnUpdate callback.
-    private: event::ConnectionPtr updateConnection;
-  };
+            /// \brief Pointer to the contact sensor
+            sensors::ContactSensorPtr parentSensor;
+
+            /// \brief Connection that maintains a link between the contact sensor's
+            /// updated signal and the OnUpdate callback.
+            event::ConnectionPtr updateConnection;
+            /*
+            math::Vector3 pos;
+            double x, y, z;
+            math::Vector3 test;
+            //*/
+    };
 }
 #endif
