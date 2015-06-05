@@ -82,6 +82,8 @@ contact_EXTERNAL_OBJECTS =
 libcontact.so: CMakeFiles/contact.dir/contactPlugin.cc.o
 libcontact.so: CMakeFiles/contact.dir/build.make
 libcontact.so: /usr/lib/x86_64-linux-gnu/libboost_system.so
+libcontact.so: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+libcontact.so: /usr/lib/x86_64-linux-gnu/libboost_regex.so
 libcontact.so: CMakeFiles/contact.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library libcontact.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/contact.dir/link.txt --verbose=$(VERBOSE)

@@ -21,6 +21,7 @@ namespace gazebo
             }
             //*/
             void OnUpdate( const common::UpdateInfo );
+            
         private:
 
             physics::ModelPtr model;
@@ -40,6 +41,11 @@ namespace gazebo
             void controller_timer(void);
             void controller_angle1(void);
             void controller_angle2(void);
+
+            transport::NodePtr node;
+            gazebo::transport::SubscriberPtr sub;
+
+            
     };
 
 }

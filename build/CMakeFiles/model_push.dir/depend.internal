@@ -3,6 +3,7 @@
 
 CMakeFiles/model_push.dir/model_push.cc.o
  /home/rhexlover/ce216project/model_push.cc
+ /home/rhexlover/ce216project/model_push.hh
  /usr/include/gazebo-5.1/gazebo/Master.hh
  /usr/include/gazebo-5.1/gazebo/Server.hh
  /usr/include/gazebo-5.1/gazebo/common/Animation.hh

@@ -7,6 +7,18 @@
 #IncludeRegexTransform: 
 
 /home/rhexlover/ce216project/model_push.cc
+model_push.hh
+/home/rhexlover/ce216project/model_push.hh
+gazebo/common/common.hh
+-
+cmath
+-
+gazebo/transport/transport.hh
+-
+gazebo/msgs/msgs.hh
+-
+
+/home/rhexlover/ce216project/model_push.hh
 boost/bind.hpp
 -
 gazebo/gazebo.hh

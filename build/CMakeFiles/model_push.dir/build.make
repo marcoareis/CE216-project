@@ -82,6 +82,13 @@ model_push_EXTERNAL_OBJECTS =
 libmodel_push.so: CMakeFiles/model_push.dir/model_push.cc.o
 libmodel_push.so: CMakeFiles/model_push.dir/build.make
 libmodel_push.so: /usr/lib/x86_64-linux-gnu/libboost_system.so
+libmodel_push.so: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+libmodel_push.so: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+libmodel_push.so: /usr/lib/x86_64-linux-gnu/libprotobuf.so
+libmodel_push.so: /usr/lib/x86_64-linux-gnu/libboost_system.so
+libmodel_push.so: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+libmodel_push.so: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+libmodel_push.so: /usr/lib/x86_64-linux-gnu/libprotobuf.so
 libmodel_push.so: CMakeFiles/model_push.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library libmodel_push.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/model_push.dir/link.txt --verbose=$(VERBOSE)

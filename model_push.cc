@@ -1,8 +1,18 @@
 #include "model_push.hh"
-#include "gazebo/common/common.hh"
+#include <gazebo/common/common.hh>
 #include <cmath>
+#include <gazebo/transport/transport.hh>
+#include <gazebo/msgs/msgs.hh>
 using namespace gazebo;
 GZ_REGISTER_MODEL_PLUGIN(ModelPush)
+
+void cb(ConstWorldStatisticsPtr &_msg)
+{
+    // Dump the message contents to stdout.
+    std::cout << "test" << std::endl;
+    std::cout << _msg->DebugString();
+}
+
 void ModelPush::Load( physics::ModelPtr _parent, sdf::ElementPtr )
 {
     this->model = _parent;
@@ -17,8 +27,18 @@ void ModelPush::Load( physics::ModelPtr _parent, sdf::ElementPtr )
 
     this->updateConnection = event::Events::ConnectWorldUpdateBegin(
             boost::bind(&ModelPush::OnUpdate, this, _1));
+    //* subscribe to messages
+    // Create our node for communication
+    this->node = transport::NodePtr(new gazebo::transport::Node());
+    node->Init("myNode1");
 
+    // Listen to Gazebo world_stats topic
+    this->sub = node->Subscribe("~/my_robot/leg1/leg1_contact", cb);
+    //this->sub = node->Subscribe("~/world_stats", cb);
+
+    //*/ end
 }
+
 
 void ModelPush::OnUpdate( const common::UpdateInfo ) 
 {
@@ -27,7 +47,7 @@ void ModelPush::OnUpdate( const common::UpdateInfo )
     //printf("joint1 angle: %d, %d, %d\n", joint1->GetAngle(0), joint1->GetAngle(1), 
     //        joint1->GetAngle(2));
     static bool startLeg = 0;
-    //*
+    /*
        std::cout << std::setprecision(2) <<  std::fixed << 
        "joint1=" << (abs(this->joint1->GetAngle(0).Degree()) % 360) << ", " <<
        "joint2=" << (abs(this->joint2->GetAngle(0).Degree()) % 360) << ", " <<
@@ -46,13 +66,15 @@ void ModelPush::OnUpdate( const common::UpdateInfo )
     //testFoo();
     //this->model->GetLink("leg1")->
     //this->jointBody->SetAngle(0, math::Angle(0));
-    
+
     /* experiment with calling contact plugin's public function to get angles.
-    static gazebo::ContactPlugin leg1Contact;
-    math::Vector3 tmp;
-    leg1Contact.gazebo::ContactPlugin::getContactPos(tmp);
-    std::cout << "model: " << "x= " << tmp.x << ", y= " << tmp.y  << ", z=" << tmp.z << std::endl;  
+       static gazebo::ContactPlugin leg1Contact;
+       math::Vector3 tmp;
+       leg1Contact.gazebo::ContactPlugin::getContactPos(tmp);
+       std::cout << "model: " << "x= " << tmp.x << ", y= " << tmp.y  << ", z=" << tmp.z << std::endl;  
     //*/
+
+
 }
 
 void ModelPush::controller_timer(void)
@@ -147,322 +169,322 @@ void ModelPush::controller_timer(void)
 
     } /* end switch */
     return;
-}
+    }
 
-void ModelPush::controller_angle1(void)
-{
-    static int state = 0, stateTransitionCount = 0;
-    static common::Time t0;
-    int bound = 5;
-    int vel_fast = 15;
-    int vel_slow = 7;
-    int angle = 0;
+    void ModelPush::controller_angle1(void)
+    {
+        static int state = 0, stateTransitionCount = 0;
+        static common::Time t0;
+        int bound = 5;
+        int vel_fast = 15;
+        int vel_slow = 7;
+        int angle = 0;
+        static bool legSet[7] = {false};
+
+        int angle_stand = 130;
+        int angle_switch_speed = 220;
+
+        switch (state) {
+            case 0: // START state
+                std::cout << "FSM begins" << std::endl;
+                state = 4;
+                std::cout << "entering state 4:" << angle << ",count=" << stateTransitionCount <<  std::endl;
+                break;
+            case 1:
+                this->joint1->SetVelocity(0, 0);
+                this->joint3->SetVelocity(0, 0);
+                this->joint5->SetVelocity(0, 0);
+                if ((abs(this->joint2->GetAngle(0).Degree()) % 360) == angle_stand) {
+                    this->joint2->SetVelocity(0, 0);  
+                    legSet[2] = true;
+                } else {
+                    this->joint2->SetVelocity(0, vel_fast);
+                }
+
+                if ((abs(this->joint4->GetAngle(0).Degree()) % 360) == angle_stand) {
+                    this->joint4->SetVelocity(0, 0);  
+                    legSet[4] = true;
+                } else {
+                    this->joint4->SetVelocity(0, vel_fast);
+                }
+
+                if ((abs(this->joint6->GetAngle(0).Degree()) % 360) == angle_stand) {
+                    this->joint6->SetVelocity(0, 0);  
+                    legSet[6] = true;
+                } else {
+                    this->joint6->SetVelocity(0, vel_fast);
+                }
+
+                if (legSet[2] && legSet[4] && legSet[6]) {
+                    std::cout << "entering state 2(stop245,slow135):" << ",count=" << stateTransitionCount << std::endl;
+                    state = 2;
+                    stateTransitionCount++; 
+                    legSet[2] = legSet[4] = legSet[6] = false;
+                }
+                break;
+            case 2:
+                this->joint2->SetVelocity(0, 0);  
+                this->joint4->SetVelocity(0, 0);  
+                this->joint6->SetVelocity(0, 0); 
+                angle =  abs(this->joint5->GetAngle(0).Degree());
+                if ((abs(this->joint1->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
+                    this->joint1->SetVelocity(0, 0);  
+                    legSet[1] = true;
+                } else {
+                    this->joint1->SetVelocity(0, vel_slow);
+                }
+                if ((abs(this->joint3->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
+                    this->joint3->SetVelocity(0, 0);  
+                    legSet[3] = true;
+                } else {
+                    this->joint3->SetVelocity(0, vel_slow);
+                }
+
+                if ((abs(this->joint5->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
+                    this->joint5->SetVelocity(0, 0);  
+                    legSet[5] = true;
+                } else {
+                    this->joint5->SetVelocity(0, vel_slow);
+                }
+
+                if (legSet[1] && legSet[3] && legSet[5]) {
+                    std::cout << "entering state 3(stop246,fast135):"<< angle << ",count=" << stateTransitionCount <<  std::endl;
+                    state = 3;
+                    stateTransitionCount++; 
+                    legSet[1] = legSet[3] = legSet[5] = false;
+                }
+                break;
+            case 3:
+                this->joint2->SetVelocity(0, 0);  
+                this->joint4->SetVelocity(0, 0);  
+                this->joint6->SetVelocity(0, 0); 
+                angle =  abs(this->joint5->GetAngle(0).Degree());
+                if ((abs(this->joint1->GetAngle(0).Degree()) % 360) == angle_stand) {
+                    this->joint1->SetVelocity(0, 0);  
+                    legSet[1] = true;
+                } else {
+                    this->joint1->SetVelocity(0, vel_fast);
+                }
+
+                if ((abs(this->joint3->GetAngle(0).Degree()) % 360) == angle_stand) {
+                    this->joint3->SetVelocity(0, 0);  
+                    legSet[3] = true;
+                } else {
+                    this->joint3->SetVelocity(0, vel_fast);
+                }
+
+                if ((abs(this->joint5->GetAngle(0).Degree()) % 360) == angle_stand) {
+                    this->joint5->SetVelocity(0, 0);  
+                    legSet[5] = true;
+                } else {
+                    this->joint5->SetVelocity(0, vel_fast);
+                }
+
+                if (legSet[1] && legSet[3] && legSet[5]) {
+                    std::cout << "entering state 4(slow246,stop135):" << angle << ",count=" << stateTransitionCount << std::endl;
+                    state = 4;
+                    stateTransitionCount++; 
+                    legSet[1] = legSet[3] = legSet[5] = false;
+                }
+                break;
+            case 4:
+                this->joint1->SetVelocity(0, 0);
+                this->joint3->SetVelocity(0, 0);
+                this->joint5->SetVelocity(0, 0);
+                angle =  abs(this->joint2->GetAngle(0).Degree());
+
+                if ((abs(this->joint2->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
+                    this->joint2->SetVelocity(0, 0);  
+                    legSet[2] = true;
+                } else {
+                    this->joint2->SetVelocity(0, vel_slow);
+                }
+                if ((abs(this->joint4->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
+                    this->joint4->SetVelocity(0, 0);  
+                    legSet[4] = true;
+                } else {
+                    this->joint4->SetVelocity(0, vel_slow);
+                }
+
+                if ((abs(this->joint6->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
+                    this->joint6->SetVelocity(0, 0);  
+                    legSet[6] = true;
+                } else {
+                    this->joint6->SetVelocity(0, vel_slow);
+                }
+
+                if (legSet[2] && legSet[4] && legSet[6]) {
+                    std::cout << "entering state 1(fast246,stop135):" << angle << ",count=" << stateTransitionCount <<  std::endl;
+                    state = 1;
+                    stateTransitionCount++; 
+                    legSet[2] = legSet[4] = legSet[6] = false;
+                }
+                break;
+
+        } /* end switch */
+        return;
+    }
+
     static bool legSet[7] = {false};
+    void ModelPush::drive135(double v, int thetaS)
+    {
+        if ((abs(this->joint1->GetAngle(0).Degree()) % 360) == thetaS) {
+            this->joint1->SetVelocity(0, 0);  
+            legSet[1] = true;
+        } else {
+            this->joint1->SetVelocity(0, v);
+        }
 
-    int angle_stand = 130;
-    int angle_switch_speed = 220;
-    
-    switch (state) {
-        case 0: // START state
-            std::cout << "FSM begins" << std::endl;
-            state = 4;
-            std::cout << "entering state 4:" << angle << ",count=" << stateTransitionCount <<  std::endl;
-            break;
-        case 1:
-            this->joint1->SetVelocity(0, 0);
-            this->joint3->SetVelocity(0, 0);
-            this->joint5->SetVelocity(0, 0);
-            if ((abs(this->joint2->GetAngle(0).Degree()) % 360) == angle_stand) {
-                this->joint2->SetVelocity(0, 0);  
-                legSet[2] = true;
-            } else {
-                this->joint2->SetVelocity(0, vel_fast);
-            }
-            
-            if ((abs(this->joint4->GetAngle(0).Degree()) % 360) == angle_stand) {
-                this->joint4->SetVelocity(0, 0);  
-                legSet[4] = true;
-            } else {
-                this->joint4->SetVelocity(0, vel_fast);
-            }
+        if ((abs(this->joint3->GetAngle(0).Degree()) % 360) == thetaS) {
+            this->joint3->SetVelocity(0, 0);  
+            legSet[3] = true;
+        } else {
+            this->joint3->SetVelocity(0, v);
+        }
 
-            if ((abs(this->joint6->GetAngle(0).Degree()) % 360) == angle_stand) {
-                this->joint6->SetVelocity(0, 0);  
-                legSet[6] = true;
-            } else {
-                this->joint6->SetVelocity(0, vel_fast);
-            }
+        if ((abs(this->joint5->GetAngle(0).Degree()) % 360) == thetaS) {
+            this->joint5->SetVelocity(0, 0);  
+            legSet[5] = true;
+        } else {
+            this->joint5->SetVelocity(0, v);
+        }
+        return;
+    }
 
-            if (legSet[2] && legSet[4] && legSet[6]) {
-                std::cout << "entering state 2(stop245,slow135):" << ",count=" << stateTransitionCount << std::endl;
-                state = 2;
-                stateTransitionCount++; 
-                legSet[2] = legSet[4] = legSet[6] = false;
-            }
-            break;
-        case 2:
+    void ModelPush::drive246(double v, int thetaS)
+    {
+        if ((abs(this->joint2->GetAngle(0).Degree()) % 360) == thetaS) {
             this->joint2->SetVelocity(0, 0);  
+            legSet[2] = true;
+        } else {
+            this->joint2->SetVelocity(0, v);
+        }
+
+        if ((abs(this->joint4->GetAngle(0).Degree()) % 360) == thetaS) {
             this->joint4->SetVelocity(0, 0);  
-            this->joint6->SetVelocity(0, 0); 
-            angle =  abs(this->joint5->GetAngle(0).Degree());
-            if ((abs(this->joint1->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
-                this->joint1->SetVelocity(0, 0);  
-                legSet[1] = true;
-            } else {
-                this->joint1->SetVelocity(0, vel_slow);
-            }
-            if ((abs(this->joint3->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
-                this->joint3->SetVelocity(0, 0);  
-                legSet[3] = true;
-            } else {
-                this->joint3->SetVelocity(0, vel_slow);
-            }
+            legSet[4] = true;
+        } else {
+            this->joint4->SetVelocity(0, v);
+        }
 
-            if ((abs(this->joint5->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
-                this->joint5->SetVelocity(0, 0);  
-                legSet[5] = true;
-            } else {
-                this->joint5->SetVelocity(0, vel_slow);
-            }
+        if ((abs(this->joint6->GetAngle(0).Degree()) % 360) == thetaS) {
+            this->joint6->SetVelocity(0, 0);  
+            legSet[6] = true;
+        } else {
+            this->joint6->SetVelocity(0, v);
+        }
+        return;
+    }
 
-            if (legSet[1] && legSet[3] && legSet[5]) {
-                std::cout << "entering state 3(stop246,fast135):"<< angle << ",count=" << stateTransitionCount <<  std::endl;
-                state = 3;
-                stateTransitionCount++; 
-                legSet[1] = legSet[3] = legSet[5] = false;
-            }
-            break;
-        case 3:
-            this->joint2->SetVelocity(0, 0);  
-            this->joint4->SetVelocity(0, 0);  
-            this->joint6->SetVelocity(0, 0); 
-            angle =  abs(this->joint5->GetAngle(0).Degree());
-            if ((abs(this->joint1->GetAngle(0).Degree()) % 360) == angle_stand) {
-                this->joint1->SetVelocity(0, 0);  
-                legSet[1] = true;
-            } else {
-                this->joint1->SetVelocity(0, vel_fast);
-            }
+    void ModelPush::controller_angle2(void)
+    {
+        static int state = 0, stateTransitionCount = 0;
+        static common::Time t0;
+        int bound = 5;
+        int vel_fast = 1.5;//5;
+        int vel_slow = .5;//2.5;
+        int angle = 0;
+        int thetaS = 20;
 
-            if ((abs(this->joint3->GetAngle(0).Degree()) % 360) == angle_stand) {
-                this->joint3->SetVelocity(0, 0);  
-                legSet[3] = true;
-            } else {
-                this->joint3->SetVelocity(0, vel_fast);
-            }
-
-            if ((abs(this->joint5->GetAngle(0).Degree()) % 360) == angle_stand) {
-                this->joint5->SetVelocity(0, 0);  
-                legSet[5] = true;
-            } else {
-                this->joint5->SetVelocity(0, vel_fast);
-            }
-
-            if (legSet[1] && legSet[3] && legSet[5]) {
-                std::cout << "entering state 4(slow246,stop135):" << angle << ",count=" << stateTransitionCount << std::endl;
-                state = 4;
-                stateTransitionCount++; 
-                legSet[1] = legSet[3] = legSet[5] = false;
-            }
-            break;
-        case 4:
-            this->joint1->SetVelocity(0, 0);
-            this->joint3->SetVelocity(0, 0);
-            this->joint5->SetVelocity(0, 0);
-            angle =  abs(this->joint2->GetAngle(0).Degree());
-
-            if ((abs(this->joint2->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
-                this->joint2->SetVelocity(0, 0);  
-                legSet[2] = true;
-            } else {
-                this->joint2->SetVelocity(0, vel_slow);
-            }
-            if ((abs(this->joint4->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
-                this->joint4->SetVelocity(0, 0);  
-                legSet[4] = true;
-            } else {
-                this->joint4->SetVelocity(0, vel_slow);
-            }
-
-            if ((abs(this->joint6->GetAngle(0).Degree()) % 360) == angle_switch_speed) {
-                this->joint6->SetVelocity(0, 0);  
-                legSet[6] = true;
-            } else {
-                this->joint6->SetVelocity(0, vel_slow);
-            }
-
-            if (legSet[2] && legSet[4] && legSet[6]) {
-                std::cout << "entering state 1(fast246,stop135):" << angle << ",count=" << stateTransitionCount <<  std::endl;
+        switch (state) {
+            case 0: // START state
+                std::cout << "FSM begins" << std::endl;
                 state = 1;
-                stateTransitionCount++; 
-                legSet[2] = legSet[4] = legSet[6] = false;
-            }
-            break;
+                std::cout << "entering state 1:" << ",count=" << stateTransitionCount <<  std::endl;
+                break;
+            case 1:
+                drive135(vel_fast, thetaS);
+                if (legSet[1] && legSet[3] && legSet[5]) {
+                    drive246(vel_slow, thetaS);
+                } else {
+                    drive246(0, thetaS);
+                }
 
-    } /* end switch */
-    return;
-}
-
-static bool legSet[7] = {false};
-void ModelPush::drive135(double v, int thetaS)
-{
-    if ((abs(this->joint1->GetAngle(0).Degree()) % 360) == thetaS) {
-        this->joint1->SetVelocity(0, 0);  
-        legSet[1] = true;
-    } else {
-        this->joint1->SetVelocity(0, v);
-    }
-
-    if ((abs(this->joint3->GetAngle(0).Degree()) % 360) == thetaS) {
-        this->joint3->SetVelocity(0, 0);  
-        legSet[3] = true;
-    } else {
-        this->joint3->SetVelocity(0, v);
-    }
-
-    if ((abs(this->joint5->GetAngle(0).Degree()) % 360) == thetaS) {
-        this->joint5->SetVelocity(0, 0);  
-        legSet[5] = true;
-    } else {
-        this->joint5->SetVelocity(0, v);
-    }
-    return;
-}
-
-void ModelPush::drive246(double v, int thetaS)
-{
-    if ((abs(this->joint2->GetAngle(0).Degree()) % 360) == thetaS) {
-        this->joint2->SetVelocity(0, 0);  
-        legSet[2] = true;
-    } else {
-        this->joint2->SetVelocity(0, v);
-    }
-
-    if ((abs(this->joint4->GetAngle(0).Degree()) % 360) == thetaS) {
-        this->joint4->SetVelocity(0, 0);  
-        legSet[4] = true;
-    } else {
-        this->joint4->SetVelocity(0, v);
-    }
-
-    if ((abs(this->joint6->GetAngle(0).Degree()) % 360) == thetaS) {
-        this->joint6->SetVelocity(0, 0);  
-        legSet[6] = true;
-    } else {
-        this->joint6->SetVelocity(0, v);
-    }
-    return;
-}
-
-void ModelPush::controller_angle2(void)
-{
-    static int state = 0, stateTransitionCount = 0;
-    static common::Time t0;
-    int bound = 5;
-    int vel_fast = 1.5;//5;
-    int vel_slow = .5;//2.5;
-    int angle = 0;
-    int thetaS = 20;
-
-    switch (state) {
-        case 0: // START state
-            std::cout << "FSM begins" << std::endl;
-            state = 1;
-            std::cout << "entering state 1:" << ",count=" << stateTransitionCount <<  std::endl;
-            break;
-        case 1:
-            drive135(vel_fast, thetaS);
-            if (legSet[1] && legSet[3] && legSet[5]) {
+                if (0&&legSet[2] && legSet[4] && legSet[6] && legSet[1] && legSet[3] && legSet[5]) {
+                    std::cout << "entering state 2(stop245,slow135):" << ",count=" << stateTransitionCount << std::endl;
+                    //                state = 2;
+                    stateTransitionCount++; 
+                    legSet[1] = legSet[3] = legSet[5] = legSet[2] = legSet[4] = legSet[6] = false;
+                }
+                break;
+            case 2:
+                drive135(vel_slow, thetaS);
                 drive246(vel_slow, thetaS);
-            } else {
-                drive246(0, thetaS);
-            }
 
-            if (0&&legSet[2] && legSet[4] && legSet[6] && legSet[1] && legSet[3] && legSet[5]) {
-                std::cout << "entering state 2(stop245,slow135):" << ",count=" << stateTransitionCount << std::endl;
-//                state = 2;
-                stateTransitionCount++; 
-                legSet[1] = legSet[3] = legSet[5] = legSet[2] = legSet[4] = legSet[6] = false;
-            }
-            break;
-        case 2:
-            drive135(vel_slow, thetaS);
-            drive246(vel_slow, thetaS);
-
-            if (legSet[2] && legSet[4] && legSet[6] && legSet[1] && legSet[3] && legSet[5]) {
-                std::cout << "entering state 3(stop246,fast135):"<< angle << ",count=" << stateTransitionCount <<  std::endl;
-                state = 3;
-                stateTransitionCount++; 
-                legSet[1] = legSet[3] = legSet[5] = legSet[2] = legSet[4] = legSet[6] = false;
-            }
-            break;
-        case 3:
-            this->joint2->SetVelocity(0, 0);  
-            this->joint4->SetVelocity(0, 0);  
-            this->joint6->SetVelocity(0, 0); 
-            angle =  abs(this->joint5->GetAngle(0).Degree());
-            if ((abs(this->joint1->GetAngle(0).Degree()) % 360) == 180) {
-                this->joint1->SetVelocity(0, 0);  
-                legSet[1] = true;
-            } else {
-                this->joint1->SetVelocity(0, vel_fast);
-            }
-
-            if ((abs(this->joint3->GetAngle(0).Degree()) % 360) == 180) {
-                this->joint3->SetVelocity(0, 0);  
-                legSet[3] = true;
-            } else {
-                this->joint3->SetVelocity(0, vel_fast);
-            }
-
-            if ((abs(this->joint5->GetAngle(0).Degree()) % 360) == 180) {
-                this->joint5->SetVelocity(0, 0);  
-                legSet[5] = true;
-            } else {
-                this->joint5->SetVelocity(0, vel_fast);
-            }
-
-            if (legSet[1] && legSet[3] && legSet[5]) {
-                std::cout << "entering state 4(slow246,stop135):" << angle << ",count=" << stateTransitionCount << std::endl;
-                state = 4;
-                stateTransitionCount++; 
-                legSet[1] = legSet[3] = legSet[5] = false;
-            }
-            break;
-        case 4:
-            this->joint1->SetVelocity(0, 0);
-            this->joint3->SetVelocity(0, 0);
-            this->joint5->SetVelocity(0, 0);
-            angle =  abs(this->joint2->GetAngle(0).Degree());
-
-            if ((abs(this->joint2->GetAngle(0).Degree()) % 360) == 359) {
+                if (legSet[2] && legSet[4] && legSet[6] && legSet[1] && legSet[3] && legSet[5]) {
+                    std::cout << "entering state 3(stop246,fast135):"<< angle << ",count=" << stateTransitionCount <<  std::endl;
+                    state = 3;
+                    stateTransitionCount++; 
+                    legSet[1] = legSet[3] = legSet[5] = legSet[2] = legSet[4] = legSet[6] = false;
+                }
+                break;
+            case 3:
                 this->joint2->SetVelocity(0, 0);  
-                legSet[2] = true;
-            } else {
-                this->joint2->SetVelocity(0, vel_slow);
-            }
-            if ((abs(this->joint4->GetAngle(0).Degree()) % 360) == 359) {
                 this->joint4->SetVelocity(0, 0);  
-                legSet[4] = true;
-            } else {
-                this->joint4->SetVelocity(0, vel_slow);
-            }
+                this->joint6->SetVelocity(0, 0); 
+                angle =  abs(this->joint5->GetAngle(0).Degree());
+                if ((abs(this->joint1->GetAngle(0).Degree()) % 360) == 180) {
+                    this->joint1->SetVelocity(0, 0);  
+                    legSet[1] = true;
+                } else {
+                    this->joint1->SetVelocity(0, vel_fast);
+                }
 
-            if ((abs(this->joint6->GetAngle(0).Degree()) % 360) == 359) {
-                this->joint6->SetVelocity(0, 0);  
-                legSet[6] = true;
-            } else {
-                this->joint6->SetVelocity(0, vel_slow);
-            }
+                if ((abs(this->joint3->GetAngle(0).Degree()) % 360) == 180) {
+                    this->joint3->SetVelocity(0, 0);  
+                    legSet[3] = true;
+                } else {
+                    this->joint3->SetVelocity(0, vel_fast);
+                }
 
-            if (legSet[2] && legSet[4] && legSet[6]) {
-                std::cout << "entering state 1(fast246,stop135):" << angle << ",count=" << stateTransitionCount <<  std::endl;
-                state = 1;
-                stateTransitionCount++; 
-                legSet[2] = legSet[4] = legSet[6] = false;
-            }
-            break;
+                if ((abs(this->joint5->GetAngle(0).Degree()) % 360) == 180) {
+                    this->joint5->SetVelocity(0, 0);  
+                    legSet[5] = true;
+                } else {
+                    this->joint5->SetVelocity(0, vel_fast);
+                }
 
-    } /* end switch */
-    return;
-}
+                if (legSet[1] && legSet[3] && legSet[5]) {
+                    std::cout << "entering state 4(slow246,stop135):" << angle << ",count=" << stateTransitionCount << std::endl;
+                    state = 4;
+                    stateTransitionCount++; 
+                    legSet[1] = legSet[3] = legSet[5] = false;
+                }
+                break;
+            case 4:
+                this->joint1->SetVelocity(0, 0);
+                this->joint3->SetVelocity(0, 0);
+                this->joint5->SetVelocity(0, 0);
+                angle =  abs(this->joint2->GetAngle(0).Degree());
+
+                if ((abs(this->joint2->GetAngle(0).Degree()) % 360) == 359) {
+                    this->joint2->SetVelocity(0, 0);  
+                    legSet[2] = true;
+                } else {
+                    this->joint2->SetVelocity(0, vel_slow);
+                }
+                if ((abs(this->joint4->GetAngle(0).Degree()) % 360) == 359) {
+                    this->joint4->SetVelocity(0, 0);  
+                    legSet[4] = true;
+                } else {
+                    this->joint4->SetVelocity(0, vel_slow);
+                }
+
+                if ((abs(this->joint6->GetAngle(0).Degree()) % 360) == 359) {
+                    this->joint6->SetVelocity(0, 0);  
+                    legSet[6] = true;
+                } else {
+                    this->joint6->SetVelocity(0, vel_slow);
+                }
+
+                if (legSet[2] && legSet[4] && legSet[6]) {
+                    std::cout << "entering state 1(fast246,stop135):" << angle << ",count=" << stateTransitionCount <<  std::endl;
+                    state = 1;
+                    stateTransitionCount++; 
+                    legSet[2] = legSet[4] = legSet[6] = false;
+                }
+                break;
+
+        } /* end switch */
+        return;
+    }

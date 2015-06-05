@@ -15,6 +15,7 @@
     <pose>2.5 0 0  0 0 0</pose>
     <static>true</static>
     <link name="uneven terrain">
+        <!--
         <visual name="visual">
             <geometry>
                 <mesh><uri>file://mountain2.dae</uri></mesh>
@@ -25,6 +26,7 @@
                 <mesh><uri>file://mountain2.dae</uri></mesh>
             </geometry>
         </collision>
+        -->
     </link>
 </model>
 
