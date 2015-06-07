@@ -118,7 +118,7 @@
         <link name="leg1">
             <pose> 0.35 0.22  0.1 0 0 -1.57 </pose>
 
-            <collision name="leg1_collision">
+            <collision name="collision">
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
@@ -129,9 +129,8 @@
 
             <sensor name='leg1_contact' type='contact'>
                 <visualize> true </visualize>
-                <plugin name="contact" filename="build/libcontact.so"/> 
                 <contact>
-                    <collision> leg1_collision </collision>
+                    <collision> collision </collision>
                 </contact>
             </sensor>
 
@@ -191,6 +190,13 @@
                 </geometry>
             </collision>
 
+            <sensor name='leg4_contact' type='contact'>
+                <visualize> true </visualize>
+                <contact>
+                    <collision> collision </collision>
+                </contact>
+            </sensor>
+
             <visual name="visual">
                 <geometry>
                     <mesh>
@@ -236,6 +242,13 @@
                 </geometry>
             </collision>
 
+            <sensor name='leg2_contact' type='contact'>
+                <visualize> true </visualize>
+                <contact>
+                    <collision> collision </collision>
+                </contact>
+            </sensor>
+
             <visual name="visual">
                 <geometry>
                     <mesh>
@@ -279,6 +292,13 @@
                     </mesh>
                 </geometry>
             </collision>
+
+            <sensor name='leg3_contact' type='contact'>
+                <visualize> true </visualize>
+                <contact>
+                    <collision> collision </collision>
+                </contact>
+            </sensor>
 
             <visual name="visual">
                 <geometry>
@@ -324,6 +344,13 @@
                 </geometry>
             </collision>
 
+            <sensor name='leg5_contact' type='contact'>
+                <visualize> true </visualize>
+                <contact>
+                    <collision> collision </collision>
+                </contact>
+            </sensor>
+
             <visual name="visual">
                 <geometry>
                     <mesh>
@@ -367,6 +394,13 @@
                     </mesh>
                 </geometry>
             </collision>
+
+            <sensor name='leg6_contact' type='contact'>
+                <visualize> true </visualize>
+                <contact>
+                    <collision> collision </collision>
+                </contact>
+            </sensor>
 
             <visual name="visual">
                 <geometry>
