@@ -43,8 +43,9 @@ namespace gazebo
             void controller_angle2(void);
 
             transport::NodePtr node;
-            gazebo::transport::SubscriberPtr sub;
-
+            gazebo::transport::PublisherPtr pub;
+    
+            void getCenterOfMass(void);
             
     };
 

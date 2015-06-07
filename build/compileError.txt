@@ -1,16 +1,7 @@
-Scanning dependencies of target contact
-[ 25%] Building CXX object CMakeFiles/contact.dir/contactPlugin.cc.o
-Linking CXX shared library libcontact.so
 [ 25%] Built target contact
-Scanning dependencies of target listener
-[ 50%] Building CXX object CMakeFiles/listener.dir/listener.cc.o
-Linking CXX executable listener
 [ 50%] Built target listener
 Scanning dependencies of target model_push
 [ 75%] Building CXX object CMakeFiles/model_push.dir/model_push.cc.o
 Linking CXX shared library libmodel_push.so
 [ 75%] Built target model_push
-Scanning dependencies of target plotPos
-[100%] Building CXX object CMakeFiles/plotPos.dir/plotTest.cc.o
-Linking CXX executable plotPos
 [100%] Built target plotPos

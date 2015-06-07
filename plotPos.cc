@@ -1,7 +1,3 @@
-// Demo of vector plot.
-// Compile it with:
-//   g++ -o example-vector example-vector.cc -lboost_iostreams -lboost_system -lboost_filesystem
-
 #include <vector>
 #include <cmath>
 #include <boost/tuple/tuple.hpp>
@@ -23,7 +19,9 @@ const std::string contact4MsgName = "my_robot::leg4::collision";
 const std::string contact5MsgName = "my_robot::leg5::collision";
 const std::string contact6MsgName = "my_robot::leg6::collision";
 
-static double x[6], y[6], z[6];
+//static double x[6], y[6], z[6];
+std::vector<double> x(6), y(6), z(6);
+gazebo::math::Vector3 cog;
 
 void cb(ConstContactsPtr &_msg)
 {
@@ -69,6 +67,14 @@ void cb(ConstContactsPtr &_msg)
     return;
 }
 
+void cb_CoG(ConstVector3dPtr &_msg)
+{
+    cog.x = _msg->x();
+    cog.y = _msg->y();
+    cog.z = _msg->z();
+    return;
+}
+
 int main(int _argc, char **_argv)
 {
     Gnuplot gp;
@@ -88,12 +94,14 @@ int main(int _argc, char **_argv)
     gazebo::transport::SubscriberPtr subContact4 = node->Subscribe("~/my_robot/leg4/leg4_contact/contacts", cb);
     gazebo::transport::SubscriberPtr subContact5 = node->Subscribe("~/my_robot/leg5/leg5_contact/contacts", cb);
     gazebo::transport::SubscriberPtr subContact6 = node->Subscribe("~/my_robot/leg6/leg6_contact/contacts", cb);
+    gazebo::transport::SubscriberPtr subCoG = node->Subscribe("/gazebo/myNode1/myCoG", cb_CoG);
 
 
     const int N = 1000;
     //std::vector<double> pts(N);
-    std::vector<std::pair<double, double> > pts135(3);
-    std::vector<std::pair<double, double> > pts246(3);
+    std::vector<std::pair<double, double> > pts135(4);
+    std::vector<std::pair<double, double> > pts246(4);
+    std::vector<std::pair<double, double> > ptCoG(1);
     double theta = 0;
     while(1) {
         /*
@@ -111,17 +119,23 @@ int main(int _argc, char **_argv)
         for(int i = 1, j = 0; i < 6; i+=2, j++) {
             pts135[j] = std::make_pair(x[i], y[i]);
         }
+        pts135[3] = std::make_pair(x[1], y[1]);
         for(int i = 0, j = 0; i < 6; i+=2, j++) {
             pts246[j] = std::make_pair(x[i], y[i]);
         }
-        //gp << "plot '-' with lines title 'positions' pt 7 ps 5 lt rgb 'blue'\n";
-
+        pts246[3] = std::make_pair(x[0], y[0]);
+        //ptCoG[0] = std::make_pair(cog.x, cog.y);
+        //pts135[3] = std::make_pair(cog.x, cog.y);
+        //pts246[3] = std::make_pair(cog.x, cog.y);
         gp << "set multiplot layout 1,2 rowsfirst\n";
-        gp << "plot '-' with linespoints title 'positions' pt 7 ps 5 lt rgb 'blue'\n";
+        gp << "plot '-' with linespoints title 'leg 135' pt 7 ps 5 lt rgb 'blue'\n";
         gp.send1d(pts135);
-        gp << "plot '-' with linespoints title 'positions' pt 7 ps 5 lt rgb 'red'\n";
+        gp << "plot '-' with linespoints title 'leg 246' pt 7 ps 5 lt rgb 'red'\n";
         gp.send1d(pts246);
+        //gp << "plot '-' with points title 'cog' pt 7 ps 5 lt rgb 'black'\n";
+        //gp.send1d(ptCoG);
         gp.flush();
+
 
         gazebo::common::Time::MSleep(10);
         mysleep(100);
