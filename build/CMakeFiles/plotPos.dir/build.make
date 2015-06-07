@@ -49,41 +49,46 @@ include CMakeFiles/plotPos.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/plotPos.dir/flags.make
 
-CMakeFiles/plotPos.dir/plotTest.cc.o: CMakeFiles/plotPos.dir/flags.make
-CMakeFiles/plotPos.dir/plotTest.cc.o: ../plotTest.cc
+CMakeFiles/plotPos.dir/plotPos.cc.o: CMakeFiles/plotPos.dir/flags.make
+CMakeFiles/plotPos.dir/plotPos.cc.o: ../plotPos.cc
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/rhexlover/ce216project/build/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/plotPos.dir/plotTest.cc.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/plotPos.dir/plotTest.cc.o -c /home/rhexlover/ce216project/plotTest.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/plotPos.dir/plotPos.cc.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/plotPos.dir/plotPos.cc.o -c /home/rhexlover/ce216project/plotPos.cc
 
-CMakeFiles/plotPos.dir/plotTest.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/plotPos.dir/plotTest.cc.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rhexlover/ce216project/plotTest.cc > CMakeFiles/plotPos.dir/plotTest.cc.i
+CMakeFiles/plotPos.dir/plotPos.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/plotPos.dir/plotPos.cc.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rhexlover/ce216project/plotPos.cc > CMakeFiles/plotPos.dir/plotPos.cc.i
 
-CMakeFiles/plotPos.dir/plotTest.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/plotPos.dir/plotTest.cc.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rhexlover/ce216project/plotTest.cc -o CMakeFiles/plotPos.dir/plotTest.cc.s
+CMakeFiles/plotPos.dir/plotPos.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/plotPos.dir/plotPos.cc.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rhexlover/ce216project/plotPos.cc -o CMakeFiles/plotPos.dir/plotPos.cc.s
 
-CMakeFiles/plotPos.dir/plotTest.cc.o.requires:
-.PHONY : CMakeFiles/plotPos.dir/plotTest.cc.o.requires
+CMakeFiles/plotPos.dir/plotPos.cc.o.requires:
+.PHONY : CMakeFiles/plotPos.dir/plotPos.cc.o.requires
 
-CMakeFiles/plotPos.dir/plotTest.cc.o.provides: CMakeFiles/plotPos.dir/plotTest.cc.o.requires
-	$(MAKE) -f CMakeFiles/plotPos.dir/build.make CMakeFiles/plotPos.dir/plotTest.cc.o.provides.build
-.PHONY : CMakeFiles/plotPos.dir/plotTest.cc.o.provides
+CMakeFiles/plotPos.dir/plotPos.cc.o.provides: CMakeFiles/plotPos.dir/plotPos.cc.o.requires
+	$(MAKE) -f CMakeFiles/plotPos.dir/build.make CMakeFiles/plotPos.dir/plotPos.cc.o.provides.build
+.PHONY : CMakeFiles/plotPos.dir/plotPos.cc.o.provides
 
-CMakeFiles/plotPos.dir/plotTest.cc.o.provides.build: CMakeFiles/plotPos.dir/plotTest.cc.o
+CMakeFiles/plotPos.dir/plotPos.cc.o.provides.build: CMakeFiles/plotPos.dir/plotPos.cc.o
 
 # Object files for target plotPos
 plotPos_OBJECTS = \
-"CMakeFiles/plotPos.dir/plotTest.cc.o"
+"CMakeFiles/plotPos.dir/plotPos.cc.o"
 
 # External object files for target plotPos
 plotPos_EXTERNAL_OBJECTS =
 
-plotPos: CMakeFiles/plotPos.dir/plotTest.cc.o
+plotPos: CMakeFiles/plotPos.dir/plotPos.cc.o
 plotPos: CMakeFiles/plotPos.dir/build.make
 plotPos: /usr/lib/x86_64-linux-gnu/libboost_system.so
 plotPos: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
 plotPos: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+plotPos: /usr/lib/x86_64-linux-gnu/libprotobuf.so
+plotPos: /usr/lib/x86_64-linux-gnu/libboost_system.so
+plotPos: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+plotPos: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+plotPos: /usr/lib/x86_64-linux-gnu/libprotobuf.so
 plotPos: CMakeFiles/plotPos.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable plotPos"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/plotPos.dir/link.txt --verbose=$(VERBOSE)
@@ -92,7 +97,7 @@ plotPos: CMakeFiles/plotPos.dir/link.txt
 CMakeFiles/plotPos.dir/build: plotPos
 .PHONY : CMakeFiles/plotPos.dir/build
 
-CMakeFiles/plotPos.dir/requires: CMakeFiles/plotPos.dir/plotTest.cc.o.requires
+CMakeFiles/plotPos.dir/requires: CMakeFiles/plotPos.dir/plotPos.cc.o.requires
 .PHONY : CMakeFiles/plotPos.dir/requires
 
 CMakeFiles/plotPos.dir/clean:

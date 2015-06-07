@@ -1,5 +1,5 @@
 FILE(REMOVE_RECURSE
-  "CMakeFiles/plotPos.dir/plotTest.cc.o"
+  "CMakeFiles/plotPos.dir/plotPos.cc.o"
   "plotPos.pdb"
   "plotPos"
 )

@@ -1,7 +1,6 @@
 #include <gazebo/transport/transport.hh>
 #include <gazebo/msgs/msgs.hh>
 #include <gazebo/gazebo.hh>
-
 #include <iostream>
 
 // Function is called everytime a message is received.
@@ -12,7 +11,11 @@ void cb(ConstContactsPtr &_msg)
     boost::shared_ptr<const gazebo::msgs::Contacts> contacts = _msg;
     if (contacts->contact_size()) {
         if (contacts->contact(0).position_size()) {
-            std::cout << contacts->contact(0).position(0).x() << std::endl; 
+            std::cout << 
+                "x=" << contacts->contact(0).position(0).x() << 
+                "y=" << contacts->contact(0).position(0).y() << 
+                "z=" << contacts->contact(0).position(0).z()  
+            << std::endl; 
         }
     }
     /*

@@ -222,29 +222,29 @@ model_push.cc.s:
 	$(MAKE) -f CMakeFiles/model_push.dir/build.make CMakeFiles/model_push.dir/model_push.cc.s
 .PHONY : model_push.cc.s
 
-plotTest.o: plotTest.cc.o
-.PHONY : plotTest.o
+plotPos.o: plotPos.cc.o
+.PHONY : plotPos.o
 
 # target to build an object file
-plotTest.cc.o:
-	$(MAKE) -f CMakeFiles/plotPos.dir/build.make CMakeFiles/plotPos.dir/plotTest.cc.o
-.PHONY : plotTest.cc.o
+plotPos.cc.o:
+	$(MAKE) -f CMakeFiles/plotPos.dir/build.make CMakeFiles/plotPos.dir/plotPos.cc.o
+.PHONY : plotPos.cc.o
 
-plotTest.i: plotTest.cc.i
-.PHONY : plotTest.i
+plotPos.i: plotPos.cc.i
+.PHONY : plotPos.i
 
 # target to preprocess a source file
-plotTest.cc.i:
-	$(MAKE) -f CMakeFiles/plotPos.dir/build.make CMakeFiles/plotPos.dir/plotTest.cc.i
-.PHONY : plotTest.cc.i
+plotPos.cc.i:
+	$(MAKE) -f CMakeFiles/plotPos.dir/build.make CMakeFiles/plotPos.dir/plotPos.cc.i
+.PHONY : plotPos.cc.i
 
-plotTest.s: plotTest.cc.s
-.PHONY : plotTest.s
+plotPos.s: plotPos.cc.s
+.PHONY : plotPos.s
 
 # target to generate assembly for a file
-plotTest.cc.s:
-	$(MAKE) -f CMakeFiles/plotPos.dir/build.make CMakeFiles/plotPos.dir/plotTest.cc.s
-.PHONY : plotTest.cc.s
+plotPos.cc.s:
+	$(MAKE) -f CMakeFiles/plotPos.dir/build.make CMakeFiles/plotPos.dir/plotPos.cc.s
+.PHONY : plotPos.cc.s
 
 # Help Target
 help:
@@ -267,9 +267,9 @@ help:
 	@echo "... model_push.o"
 	@echo "... model_push.i"
 	@echo "... model_push.s"
-	@echo "... plotTest.o"
-	@echo "... plotTest.i"
-	@echo "... plotTest.s"
+	@echo "... plotPos.o"
+	@echo "... plotPos.i"
+	@echo "... plotPos.s"
 .PHONY : help
 
 
