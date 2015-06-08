@@ -85,21 +85,16 @@ void ModelPush::getCenterOfMass()
     std::ostringstream ss;
     //*
     // get all mass and cog
-    //std::cout << this->model->GetLink("leg1")->GetWorldCoGPose().pos << std::endl;
     for (int i = 0; i < 6; i++) {
         ss << std::string("leg") << (i+1);
-        //std::cout << this->model->GetLink(ss.str())->GetInertial()->GetCoG() << std::endl;
-        //allCoG.push_back(this->model->GetLink(ss.str())->GetInertial()->GetCoG());
         allCoG.push_back(this->model->GetLink(ss.str())->GetWorldCoGPose().pos);
         allMass.push_back(this->model->GetLink(ss.str())->GetInertial()->GetMass());
-        //std::cout << i << ":" << allCoG[i] << std::endl;
         ss.str("");
     }
     
     // dot product of mass and cog
     gazebo::math::Vector3 modelCoG, sum;
     sum = std::inner_product(allCoG.begin(), allCoG.end(), allMass.begin(), gazebo::math::Vector3(0,0,0)); 
-    //std::cout << "sum=" << sum << std::endl;
     modelCoG = sum/std::accumulate(allMass.begin(), allMass.end(), 0.0);
     gazebo::msgs::Vector3d msg;
     gazebo::msgs::Set(&msg, modelCoG);

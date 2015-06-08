@@ -99,8 +99,8 @@ int main(int _argc, char **_argv)
 
     const int N = 1000;
     //std::vector<double> pts(N);
-    std::vector<std::pair<double, double> > pts135(4);
-    std::vector<std::pair<double, double> > pts246(4);
+    std::vector<std::pair<double, double> > pts135(5);
+    std::vector<std::pair<double, double> > pts246(5);
     std::vector<std::pair<double, double> > ptCoG(1);
     double theta = 0;
     while(1) {
@@ -125,16 +125,19 @@ int main(int _argc, char **_argv)
         }
         pts246[3] = std::make_pair(x[0], y[0]);
         //ptCoG[0] = std::make_pair(cog.x, cog.y);
-        //pts135[3] = std::make_pair(cog.x, cog.y);
-        //pts246[3] = std::make_pair(cog.x, cog.y);
+        pts135[4] = std::make_pair(cog.x, cog.y);
+        pts246[4] = std::make_pair(cog.x, cog.y);
         gp << "set multiplot layout 1,2 rowsfirst\n";
+        gp << "set nokey\n";
         gp << "plot '-' with linespoints title 'leg 135' pt 7 ps 5 lt rgb 'blue'\n";
         gp.send1d(pts135);
         gp << "plot '-' with linespoints title 'leg 246' pt 7 ps 5 lt rgb 'red'\n";
         gp.send1d(pts246);
         //gp << "plot '-' with points title 'cog' pt 7 ps 5 lt rgb 'black'\n";
         //gp.send1d(ptCoG);
+        gp << "unset multiplot\n";
         gp.flush();
+
 
 
         gazebo::common::Time::MSleep(10);
