@@ -77,6 +77,8 @@ gazebo/gazebo.hh
 -
 iostream
 -
+algorithm
+-
 gnuplot-iostream.h
 /home/rhexlover/ce216project/gnuplot-iostream.h
 unistd.h

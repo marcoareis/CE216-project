@@ -5,6 +5,7 @@
 #include <gazebo/msgs/msgs.hh>
 #include <gazebo/gazebo.hh>
 #include <iostream>
+#include <algorithm>
 #include "gnuplot-iostream.h"
 
 #include <unistd.h>
@@ -21,7 +22,9 @@ const std::string contact6MsgName = "my_robot::leg6::collision";
 
 //static double x[6], y[6], z[6];
 std::vector<double> x(6), y(6), z(6);
+std::vector<gazebo::math::Vector3 > legPts(6);
 gazebo::math::Vector3 cog;
+int legSet = 1; // 1=135, 2=246
 
 void cb(ConstContactsPtr &_msg)
 {
@@ -38,29 +41,35 @@ void cb(ConstContactsPtr &_msg)
             //std::cout << contacts->contact(0).collision1().c_str() << std::endl;
             //*/
             if (contacts->contact(0).collision1().c_str() == contact1MsgName) {
-                x[0] = contacts->contact(0).position(0).x();
-                y[0] = contacts->contact(0).position(0).y();
-                z[0] = contacts->contact(0).position(0).z();  
+                legPts[0].x = contacts->contact(0).position(0).x();
+                legPts[0].y = contacts->contact(0).position(0).y();
+                legPts[0].z = contacts->contact(0).position(0).z();  
+                legSet = 1;
             } else if (contacts->contact(0).collision1().c_str() == contact2MsgName) {
-                x[1] = contacts->contact(0).position(0).x();
-                y[1] = contacts->contact(0).position(0).y();
-                z[1] = contacts->contact(0).position(0).z();  
+                legPts[1].x = contacts->contact(0).position(0).x();
+                legPts[1].y = contacts->contact(0).position(0).y();
+                legPts[1].z = contacts->contact(0).position(0).z();  
+                legSet = 2;
             }  else if (contacts->contact(0).collision1().c_str() == contact3MsgName) {
-                x[2] = contacts->contact(0).position(0).x();
-                y[2] = contacts->contact(0).position(0).y();
-                z[2] = contacts->contact(0).position(0).z();  
+                legPts[2].x = contacts->contact(0).position(0).x();
+                legPts[2].y = contacts->contact(0).position(0).y();
+                legPts[2].z = contacts->contact(0).position(0).z();  
+                legSet = 1;
             }  else if (contacts->contact(0).collision1().c_str() == contact4MsgName) {
-                x[3] = contacts->contact(0).position(0).x();
-                y[3] = contacts->contact(0).position(0).y();
-                z[3] = contacts->contact(0).position(0).z();  
+                legPts[3].x = contacts->contact(0).position(0).x();
+                legPts[3].y = contacts->contact(0).position(0).y();
+                legPts[3].z = contacts->contact(0).position(0).z();  
+                legSet = 2;
             }  else if (contacts->contact(0).collision1().c_str() == contact5MsgName) {
-                x[4] = contacts->contact(0).position(0).x();
-                y[4] = contacts->contact(0).position(0).y();
-                z[4] = contacts->contact(0).position(0).z();  
+                legPts[4].x = contacts->contact(0).position(0).x();
+                legPts[4].y = contacts->contact(0).position(0).y();
+                legPts[4].z = contacts->contact(0).position(0).z();  
+                legSet = 1;
             }  else if (contacts->contact(0).collision1().c_str() == contact6MsgName) {
-                x[5] = contacts->contact(0).position(0).x();
-                y[5] = contacts->contact(0).position(0).y();
-                z[5] = contacts->contact(0).position(0).z();  
+                legPts[5].x = contacts->contact(0).position(0).x();
+                legPts[5].y = contacts->contact(0).position(0).y();
+                legPts[5].z = contacts->contact(0).position(0).z();  
+                legSet = 2;
             } 
         }
     }
@@ -73,6 +82,24 @@ void cb_CoG(ConstVector3dPtr &_msg)
     cog.y = _msg->y();
     cog.z = _msg->z();
     return;
+}
+
+double getMinDist2Triangle(void)
+{
+    std::vector<double> dists;
+    switch (legSet) {
+        case 1:
+            dists.push_back(cog.GetDistToLine(legPts[0], legPts[4]));
+            dists.push_back(cog.GetDistToLine(legPts[0], legPts[2]));
+            dists.push_back(cog.GetDistToLine(legPts[2], legPts[4]));
+            break;
+        case 2:
+            dists.push_back(cog.GetDistToLine(legPts[1], legPts[3]));
+            dists.push_back(cog.GetDistToLine(legPts[1], legPts[5]));
+            dists.push_back(cog.GetDistToLine(legPts[3], legPts[5]));
+            break;
+    }
+    return *std::min_element(dists.begin(), dists.end());
 }
 
 int main(int _argc, char **_argv)
@@ -102,6 +129,7 @@ int main(int _argc, char **_argv)
     std::vector<std::pair<double, double> > pts135(5);
     std::vector<std::pair<double, double> > pts246(5);
     std::vector<std::pair<double, double> > ptCoG(1);
+    std::vector<double> minDists;
     double theta = 0;
     while(1) {
         /*
@@ -117,24 +145,41 @@ int main(int _argc, char **_argv)
 
         //pts.pop_back();
         for(int i = 1, j = 0; i < 6; i+=2, j++) {
-            pts135[j] = std::make_pair(x[i], y[i]);
+            pts135[j] = std::make_pair(legPts[i].x, legPts[i].y);
         }
-        pts135[3] = std::make_pair(x[1], y[1]);
+        pts135[3] = std::make_pair(legPts[1].x, legPts[1].y); // add initial point to connect the last to first
         for(int i = 0, j = 0; i < 6; i+=2, j++) {
-            pts246[j] = std::make_pair(x[i], y[i]);
+            pts246[j] = std::make_pair(legPts[i].x, legPts[i].y);
         }
-        pts246[3] = std::make_pair(x[0], y[0]);
+        //pts246[3] = std::make_pair(x[0], y[0]);
+        pts246[3] = std::make_pair(legPts[0].x, legPts[0].y); // add initial point to connect the last to first
         //ptCoG[0] = std::make_pair(cog.x, cog.y);
+
+        // add the center of mass to plot on the same grpah
         pts135[4] = std::make_pair(cog.x, cog.y);
         pts246[4] = std::make_pair(cog.x, cog.y);
-        gp << "set multiplot layout 1,2 rowsfirst\n";
+        gp << "set multiplot layout 2,1 rowsfirst\n";
         gp << "set nokey\n";
-        gp << "plot '-' with linespoints title 'leg 135' pt 7 ps 5 lt rgb 'blue'\n";
-        gp.send1d(pts135);
-        gp << "plot '-' with linespoints title 'leg 246' pt 7 ps 5 lt rgb 'red'\n";
-        gp.send1d(pts246);
+
+        switch (legSet) {
+            case 1:
+                gp << "plot '-' with linespoints title 'leg 135' pt 7 ps 5 lt rgb 'blue'\n";
+                gp.send1d(pts135);
+                break;
+            case 2:
+                gp << "plot '-' with linespoints title 'leg 246' pt 7 ps 5 lt rgb 'red'\n";
+                gp.send1d(pts246);
+                break;
+        }
         //gp << "plot '-' with points title 'cog' pt 7 ps 5 lt rgb 'black'\n";
         //gp.send1d(ptCoG);
+
+        minDists.push_back(getMinDist2Triangle());
+        gp << "plot '-' binary" << gp.binFmt1d(minDists, "array") << "with lines notitle\n";
+        gp.sendBinary1d(minDists);
+        if (minDists.size() > 100) {
+            minDists.erase(minDists.begin());
+        }
         gp << "unset multiplot\n";
         gp.flush();
 

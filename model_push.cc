@@ -91,6 +91,10 @@ void ModelPush::getCenterOfMass()
         allMass.push_back(this->model->GetLink(ss.str())->GetInertial()->GetMass());
         ss.str("");
     }
+    allCoG.push_back(this->model->GetLink("chassis_front")->GetWorldCoGPose().pos);
+    allCoG.push_back(this->model->GetLink("chassis_back")->GetWorldCoGPose().pos);
+    allMass.push_back(this->model->GetLink("chassis_front")->GetInertial()->GetMass());
+    allMass.push_back(this->model->GetLink("chassis_back")->GetInertial()->GetMass());
     
     // dot product of mass and cog
     gazebo::math::Vector3 modelCoG, sum;

@@ -12,21 +12,25 @@
 </include>
 
 <model name="uneven_terrain">
-    <pose>2.5 0 0  0 0 0</pose>
+    <pose>8 0 0  0 0 0</pose>
     <static>true</static>
     <link name="uneven terrain">
-        <!--
         <visual name="visual">
             <geometry>
-                <mesh><uri>file://mountain2.dae</uri></mesh>
+                <mesh>
+                    <uri>file://mountain2.dae</uri>
+                    <scale> 1 5 .8 </scale>
+                </mesh>
             </geometry>
         </visual>
         <collision name="collision">
             <geometry>
-                <mesh><uri>file://mountain2.dae</uri></mesh>
+                <mesh>
+                    <uri>file://mountain2.dae</uri>
+                    <scale> 1 5 .8 </scale>
+                </mesh>
             </geometry>
         </collision>
-        -->
     </link>
 </model>
 
@@ -107,22 +111,24 @@
             <child> chassis_front </child>
             <parent> chassis_back </parent>
             <axis> 
+                <!--
                 <limit> 
                     <lower> 0.1 </lower>
                     <upper> 0.1 </upper>
                 </limit>
+                -->
                 <xyz> 0 1 0 </xyz>
             </axis>
         </joint>
 
         <link name="leg1">
-            <pose> 0.35 0.22  0.1 0 0 -1.57 </pose>
+            <pose> 0.39 0.24  0.1 0 0 -1.57 </pose>
 
             <collision name="collision">
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </collision>
@@ -138,7 +144,7 @@
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </visual>
@@ -168,7 +174,7 @@
         </joint>
 
         <link name="leg4">
-            <pose> 0.35 -0.22 0.1 0 0 -1.57 </pose>
+            <pose> 0.39 -0.24 0.1 0 0 -1.57 </pose>
             <inertial>
                 <mass> 0.5 </mass>
                 <inertia>
@@ -185,7 +191,7 @@
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </collision>
@@ -201,7 +207,7 @@
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </visual>
@@ -220,7 +226,7 @@
 
 
         <link name="leg2">
-            <pose> 0 0.26 0.1 0 0 -1.57 </pose>
+            <pose> 0.11 0.31 0.1 0 0 -1.57 </pose>
             <inertial>
                 <mass> 0.5 </mass>
                 <inertia>
@@ -237,7 +243,7 @@
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </collision>
@@ -253,7 +259,7 @@
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </visual>
@@ -271,7 +277,7 @@
         </joint>
 
         <link name="leg3">
-            <pose> -0.18 0.22 0.1 0 0 -1.57 </pose>
+            <pose> -0.14 0.24 0.1 0 0 -1.57 </pose>
             <inertial>
                 <mass> 0.5 </mass>
                 <inertia>
@@ -288,7 +294,7 @@
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </collision>
@@ -304,7 +310,7 @@
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </visual>
@@ -322,7 +328,7 @@
         </joint>
 
         <link name="leg5">
-            <pose> 0 -0.26 0.1 0 0 -1.57 </pose>
+            <pose> 0.11 -0.31 0.1 0 0 -1.57 </pose>
             <inertial>
                 <mass> 0.5 </mass>
                 <inertia>
@@ -339,7 +345,7 @@
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </collision>
@@ -355,7 +361,7 @@
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </visual>
@@ -373,7 +379,7 @@
         </joint>
 
         <link name="leg6">
-            <pose> -0.18 -0.22 0.1 0 0 -1.57 </pose>
+            <pose> -0.14 -0.24 0.1 0 0 -1.57 </pose>
             <inertial>
                 <mass> 0.5 </mass>
                 <inertia>
@@ -390,7 +396,7 @@
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </collision>
@@ -406,7 +412,7 @@
                 <geometry>
                     <mesh>
                         <uri>file://leg.dae</uri>
-                        <scale> .1 .1 .1 </scale>
+                        <scale> .17 .17 .17 </scale>
                     </mesh>
                 </geometry>
             </visual>

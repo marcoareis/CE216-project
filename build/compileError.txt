@@ -2,6 +2,37 @@
 [ 50%] Built target listener
 Scanning dependencies of target model_push
 [ 75%] Building CXX object CMakeFiles/model_push.dir/model_push.cc.o
-Linking CXX shared library libmodel_push.so
-[ 75%] Built target model_push
-[100%] Built target plotPos
+/home/rhexlover/ce216project/model_push.cc: In member function 'void gazebo::ModelPush::getCenterOfMass()':
+/home/rhexlover/ce216project/model_push.cc:96:83: error: no matching function for call to 'std::vector<double>::push_back(gazebo::math::Vector3)'
+     allMass.push_back(this->model->GetLink("chassis_front")->GetWorldCoGPose().pos);
+                                                                                   ^
+/home/rhexlover/ce216project/model_push.cc:96:83: note: candidate is:
+In file included from /usr/include/c++/4.8/vector:64:0,
+                 from /usr/include/gazebo-5.1/gazebo/common/Animation.hh:21,
+                 from /usr/include/gazebo-5.1/gazebo/common/common.hh:5,
+                 from /usr/include/gazebo-5.1/gazebo/gazebo_core.hh:19,
+                 from /usr/include/gazebo-5.1/gazebo/gazebo.hh:20,
+                 from /home/rhexlover/ce216project/model_push.hh:5,
+                 from /home/rhexlover/ce216project/model_push.cc:2:
+/usr/include/c++/4.8/bits/stl_vector.h:901:7: note: void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = double; _Alloc = std::allocator<double>; std::vector<_Tp, _Alloc>::value_type = double]
+       push_back(const value_type& __x)
+       ^
+/usr/include/c++/4.8/bits/stl_vector.h:901:7: note:   no known conversion for argument 1 from 'gazebo::math::Vector3' to 'const value_type& {aka const double&}'
+/home/rhexlover/ce216project/model_push.cc:97:82: error: no matching function for call to 'std::vector<double>::push_back(gazebo::math::Vector3)'
+     allMass.push_back(this->model->GetLink("chassis_back")->GetWorldCoGPose().pos);
+                                                                                  ^
+/home/rhexlover/ce216project/model_push.cc:97:82: note: candidate is:
+In file included from /usr/include/c++/4.8/vector:64:0,
+                 from /usr/include/gazebo-5.1/gazebo/common/Animation.hh:21,
+                 from /usr/include/gazebo-5.1/gazebo/common/common.hh:5,
+                 from /usr/include/gazebo-5.1/gazebo/gazebo_core.hh:19,
+                 from /usr/include/gazebo-5.1/gazebo/gazebo.hh:20,
+                 from /home/rhexlover/ce216project/model_push.hh:5,
+                 from /home/rhexlover/ce216project/model_push.cc:2:
+/usr/include/c++/4.8/bits/stl_vector.h:901:7: note: void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = double; _Alloc = std::allocator<double>; std::vector<_Tp, _Alloc>::value_type = double]
+       push_back(const value_type& __x)
+       ^
+/usr/include/c++/4.8/bits/stl_vector.h:901:7: note:   no known conversion for argument 1 from 'gazebo::math::Vector3' to 'const value_type& {aka const double&}'
+make[2]: *** [CMakeFiles/model_push.dir/model_push.cc.o] Error 1
+make[1]: *** [CMakeFiles/model_push.dir/all] Error 2
+make: *** [all] Error 2
