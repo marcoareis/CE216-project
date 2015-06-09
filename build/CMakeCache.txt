@@ -23,6 +23,12 @@ Boost_FILESYSTEM_LIBRARY_DEBUG:FILEPATH=/usr/lib/x86_64-linux-gnu/libboost_files
 //Boost filesystem library (release)
 Boost_FILESYSTEM_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libboost_filesystem.so
 
+//Boost geometry library (debug)
+Boost_GEOMETRY_LIBRARY_DEBUG:FILEPATH=Boost_GEOMETRY_LIBRARY_DEBUG-NOTFOUND
+
+//Boost geometry library (release)
+Boost_GEOMETRY_LIBRARY_RELEASE:FILEPATH=Boost_GEOMETRY_LIBRARY_RELEASE-NOTFOUND
+
 //Path to a file.
 Boost_INCLUDE_DIR:PATH=/usr/include
 
@@ -253,6 +259,10 @@ Boost_DIR-ADVANCED:INTERNAL=1
 Boost_FILESYSTEM_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_FILESYSTEM_LIBRARY_RELEASE
 Boost_FILESYSTEM_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_GEOMETRY_LIBRARY_DEBUG
+Boost_GEOMETRY_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_GEOMETRY_LIBRARY_RELEASE
+Boost_GEOMETRY_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_INCLUDE_DIR
 Boost_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_IOSTREAMS_LIBRARY_DEBUG
@@ -463,7 +473,7 @@ PROTOBUF_PROTOC_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PROTOBUF_PROTOC_LIBRARY_DEBUG
 PROTOBUF_PROTOC_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //Components requested for this build tree.
-_Boost_COMPONENTS_SEARCHED:INTERNAL=filesystem;iostreams;regex;system
+_Boost_COMPONENTS_SEARCHED:INTERNAL=filesystem;geometry;iostreams;regex;system
 //Last used Boost_INCLUDE_DIR value.
 _Boost_INCLUDE_DIR_LAST:INTERNAL=/usr/include
 //Last used Boost_LIBRARY_DIR value.

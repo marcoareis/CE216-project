@@ -69,6 +69,12 @@ cmath
 -
 boost/tuple/tuple.hpp
 -
+boost/geometry.hpp
+-
+boost/geometry/geometries/point_xy.hpp
+-
+boost/geometry/geometries/polygon.hpp
+-
 gazebo/transport/transport.hh
 -
 gazebo/msgs/msgs.hh
