@@ -15,7 +15,6 @@
     <pose>8 0 0  0 0 0</pose>
     <static>true</static>
     <link name="uneven terrain">
-        <!--
         <visual name="visual">
             <geometry>
                 <mesh>
@@ -29,28 +28,29 @@
                 <mesh>
                     <uri>file://mountain2.dae</uri>
                     <scale> 3 5 1 </scale>
+                </mesh>
+            </geometry>
+        </collision>
+        <!--
+        <visual name="visual">
+            <pose> -5 0 0 0 0 -1.57</pose>
+            <geometry>
+                <mesh>
+                    <uri>file://ramp.dae</uri>
+                    <scale> 2 .1 .1 </scale>
+                </mesh>
+            </geometry>
+        </visual>
+        <collision name="collision">
+            <pose> -5 0 0 0 0 -1.57</pose>
+            <geometry>
+                <mesh>
+                    <uri>file://ramp.dae</uri>
+                    <scale> 2 .1 .1 </scale>
                 </mesh>
             </geometry>
         </collision>
         --> 
-        <visual name="visual">
-            <pose> -5 0 0 0 0 -1.57</pose>
-            <geometry>
-                <mesh>
-                    <uri>file://ramp.dae</uri>
-                    <scale> 2 .1 .1 </scale>
-                </mesh>
-            </geometry>
-        </visual>
-        <collision name="collision">
-            <pose> -5 0 0 0 0 -1.57</pose>
-            <geometry>
-                <mesh>
-                    <uri>file://ramp.dae</uri>
-                    <scale> 2 .1 .1 </scale>
-                </mesh>
-            </geometry>
-        </collision>
     </link>
 </model>
 
@@ -132,8 +132,8 @@
             <parent> chassis_back </parent>
             <axis> 
                 <limit> 
-                    <upper> 0 </upper>
-                    <lower> 0 </lower>
+                    <upper> 0.5 </upper>
+                    <lower> -0.5  </lower>
                 </limit>
                 <xyz> 0 1 0 </xyz>
             </axis>
